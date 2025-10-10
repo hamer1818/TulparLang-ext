@@ -1,0 +1,9 @@
+.vscode/**
+.vscode-test/**
+.gitignore
+test.olang
+node_modules/**
+*.vsix
+**/*.map
+.git
+.github

@@ -1,0 +1,96 @@
+{
+  "Print Statement": {
+    "prefix": "print",
+    "body": ["print($1);"],
+    "description": "Print statement"
+  },
+  "Variable Declaration (int)": {
+    "prefix": "oint",
+    "body": ["int ${1:name} = ${2:0};"],
+    "description": "Integer variable declaration"
+  },
+  "Variable Declaration (float)": {
+    "prefix": "ofloat",
+    "body": ["float ${1:name} = ${2:0.0};"],
+    "description": "Float variable declaration"
+  },
+  "Variable Declaration (str)": {
+    "prefix": "ostr",
+    "body": ["str ${1:name} = \"${2}\";"],
+    "description": "String variable declaration"
+  },
+  "Variable Declaration (bool)": {
+    "prefix": "obool",
+    "body": ["bool ${1:name} = ${2:true};"],
+    "description": "Boolean variable declaration"
+  },
+  "Array (mixed)": {
+    "prefix": "oarray",
+    "body": ["array ${1:name} = [${2}];"],
+    "description": "Mixed type array"
+  },
+  "Array (int)": {
+    "prefix": "oarrayint",
+    "body": ["arrayInt ${1:name} = [${2}];"],
+    "description": "Integer array"
+  },
+  "Array (str)": {
+    "prefix": "oarraystr",
+    "body": ["arrayStr ${1:name} = [${2}];"],
+    "description": "String array"
+  },
+  "If statement": {
+    "prefix": "oif",
+    "body": ["if (${1:condition}) {", "  $0", "}"],
+    "description": "If statement"
+  },
+  "If-Else statement": {
+    "prefix": "oifelse",
+    "body": ["if (${1:condition}) {", "  $2", "} else {", "  $0", "}"],
+    "description": "If-Else statement"
+  },
+  "While loop": {
+    "prefix": "owhile",
+    "body": ["while (${1:condition}) {", "  $0", "}"],
+    "description": "While loop"
+  },
+  "For loop (C-style)": {
+    "prefix": "ofor",
+    "body": ["for (int ${1:i} = 0; ${1:i} < ${2:10}; ${1:i}++) {", "  $0", "}"],
+    "description": "C-style for loop"
+  },
+  "For-in loop (range)": {
+    "prefix": "oforin",
+    "body": ["for (${1:i} in range(${2:10})) {", "  $0", "}"],
+    "description": "For-in loop with range"
+  },
+  "Function": {
+    "prefix": "ofunc",
+    "body": ["func ${1:name}(${2:params}) {", "  $0", "}"],
+    "description": "Function declaration"
+  },
+  "Function with return": {
+    "prefix": "ofuncr",
+    "body": ["func ${1:name}(${2:params}) {", "  return ${3:value};", "}"],
+    "description": "Function with return"
+  },
+  "Input (string)": {
+    "prefix": "oinput",
+    "body": ["str ${1:name} = input(\"${2:prompt}: \");"],
+    "description": "String input"
+  },
+  "Input (int)": {
+    "prefix": "oinputint",
+    "body": ["int ${1:name} = inputInt(\"${2:prompt}: \");"],
+    "description": "Integer input"
+  },
+  "Comment block": {
+    "prefix": "ocomment",
+    "body": [
+      "// ----------------------------------------",
+      "// ${1:SECTION NAME}",
+      "// ----------------------------------------"
+    ],
+    "description": "Section comment block"
+  }
+}

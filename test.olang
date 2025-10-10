@@ -1,0 +1,39 @@
+// Test dosyası - Olang özelliklerini test et
+print("=== Olang Test ===");
+
+// Değişkenler
+int sayi = 42;
+float pi = 3.14;
+str mesaj = "Merhaba Olang!";
+bool durum = true;
+
+print("Sayı:", sayi);
+print("Pi:", pi);
+print("Mesaj:", mesaj);
+print("Durum:", durum);
+// Diziler
+arrayInt sayilar = [1, 2, 3, 4, 5];
+arrayStr isimler = ["Ali", "Veli", "Ayşe"];
+
+print("Sayılar:", sayilar);
+print("İsimler:", isimler);
+
+// Döngü
+for (int i = 0; i < 5; i++) {
+    print("i =", i);
+}
+
+// Fonksiyon
+func topla(int a, int b) {
+    return a + b;
+}
+
+int sonuc = topla(10, 20);
+print("Toplam:", sonuc);
+
+// Koşul
+if (sayi > 40) {
+    print("Sayı 40'tan büyük");
+} else {
+    print("Sayı 40'tan küçük veya eşit");
+}

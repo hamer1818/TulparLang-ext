@@ -1,0 +1,41 @@
+// Test - Tip Kontrolü ve Kullanılmayan Kod
+print("=== Test Başlıyor ===");
+
+// ✅ DOĞRU KULLANIM
+int sayi = 42;
+str isim = "Ahmet";
+bool aktif = true;
+arrayInt sayilar = [1, 2, 3];
+arrayStr isimler = ["Ali", "Veli"];
+
+print("Sayı:", sayi);
+print("İsim:", isim);
+
+// ❌ TİP HATALARI - Bunlar kırmızı alt çizgiyle gösterilecek
+str yanlisSayi = 123;           // Hata: String'e sayı
+int yanlisYas = "otuz";         // Hata: Int'e string
+bool yanlisAktif = "evet";      // Hata: Bool'a string
+arrayInt yanlisArray = ["a"];   // Hata: arrayInt'e string
+
+// 💡 KULLANILMAYAN DEĞIŞKENLER - Gri/soluk görünecek
+int kullanilmayan1 = 100;
+str kullanilmayan2 = "test";
+float kullanilmayan3 = 3.14;
+
+// 💡 KULLANILMAYAN FONKSİYON - Gri/soluk görünecek
+func kullanilmayanFunc(int x) {
+    return x * 2;
+}
+
+// ✅ KULLANILAN FONKSİYON - Normal görünecek
+func topla(int a, int b) {
+    return a + b;
+}
+
+int toplam = topla(10, 20);
+print("Toplam:", toplam);
+
+// ❌ TANIMSIZ FONKSİYON - Hata
+bilinmeyenFonksiyon();
+
+print("=== Test Bitti ===");

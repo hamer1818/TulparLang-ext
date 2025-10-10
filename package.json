@@ -1,0 +1,66 @@
+{
+  "name": "vscode-olang",
+  "displayName": "Olang",
+  "publisher": "hamer1818",
+  "version": "0.3.0",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": ["Programming Languages"],
+  "description": "Olang language support for VS Code — syntax highlighting, IntelliSense, type checking, unused variable detection, hover info, diagnostics, snippets and a Run command.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hamer1818/OLang.git"
+  },
+  "license": "MIT",
+  "keywords": ["olang", "programming language", "syntax highlighting"],
+  "main": "./src/extension.js",
+  "scripts": {
+    "test": "echo \"No tests\" && exit 0"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "olang",
+        "aliases": ["Olang", "olang"],
+        "extensions": [".olang"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "olang",
+        "scopeName": "source.olang",
+        "path": "./syntaxes/olang.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "olang",
+        "path": "./snippets/olang.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "olang.runFile",
+        "title": "Run Olang File"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Olang",
+      "properties": {
+        "olang.runCommand": {
+          "type": "string",
+          "default": "olang run ${file}",
+          "description": "Command used to run an Olang file. Use ${file} to insert the active file path."
+        }
+      }
+    }
+  },
+  "activationEvents": [
+    "onCommand:olang.runFile",
+    "onLanguage:olang"
+  ],
+  "dependencies": {}
+}

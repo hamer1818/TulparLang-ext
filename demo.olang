@@ -1,0 +1,83 @@
+// Demo - Yeni Özellikleri Test Et!
+print("=== OLang Eklenti Demo ===");
+
+// 1. IntelliSense Testi
+// "pr" yazıp Ctrl+Space ile print önerisini görün
+
+// 2. Hover Testi  
+// print kelimesinin üzerine fareyle gelin
+print("Hover testi");
+
+// 3. Fonksiyon IntelliSense
+// Bu fonksiyonu tanımlayın, sonra "kare" yazıp otomatik tamamlama görün
+func kare(int n) {
+    return n * n;
+}
+
+// "ka" yazıp Ctrl+Space - kare() fonksiyonu önerilecek!
+int sonuc = kare(5);
+print("5 kare =", sonuc);
+
+// 4. Değişken IntelliSense
+int benimSayim = 100;
+float benimFloatum = 3.14;
+str benimStringim = "Test";
+
+// "benim" yazıp Ctrl+Space - tüm değişkenler önerilecek!
+
+// 5. Diagnostics Testi
+// Bu satırda noktalı virgül eksik - uyarı göreceksiniz:
+int hataVar = 42
+
+// 6. Built-in fonksiyon hover
+// length, push, pop kelimelerinin üzerine gelin
+arrayInt sayilar = [1, 2, 3];
+int uzunluk = length(sayilar);
+print("Uzunluk:", uzunluk);
+
+// ========================================
+// YENİ ÖZELLİKLER - v0.3.0
+// ========================================
+
+// 7. TİP KONTROLÜ TESTLERİ
+print("");
+print("=== Tip Kontrolü Testleri ===");
+
+// HATA: String'e sayı atama
+str isim = 123;
+
+// HATA: Int'e string atama  
+int yas = "yirmi";
+
+// HATA: Bool'a geçersiz değer
+bool aktifMi = "evet";
+
+// HATA: arrayInt'e string elemanlar
+arrayInt numaralar = ["bir", "iki", "üç"];
+
+// HATA: arrayStr'ye string olmayan elemanlar
+arrayStr metinler = [1, 2, 3];
+
+// 8. KULLANILMAYAN DEĞİŞKEN UYARILARI
+print("");
+print("=== Kullanılmayan Değişken Testleri ===");
+
+// Bu değişken kullanılmıyor - gri/soluk görünecek
+int kullanilmayanDegisken = 999;
+
+// Bu fonksiyon kullanılmıyor - gri/soluk görünecek
+func kullanilmayanFonksiyon(int x) {
+    return x * 2;
+}
+
+// Bu değişken KULLANILIYOR - normal görünecek
+int kullanilanDegisken = 50;
+print("Kullanılan:", kullanilanDegisken);
+
+// 9. TANIMSıZ FONKSİYON HATASI
+print("");
+print("=== Tanımsız Fonksiyon Testi ===");
+
+// HATA: Bu fonksiyon tanımlı değil
+bilinmeyenFonksiyon();
+
