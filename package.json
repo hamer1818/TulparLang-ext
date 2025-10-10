@@ -2,7 +2,7 @@
   "name": "vscode-olang",
   "displayName": "Olang",
   "publisher": "hamer1818",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "engines": {
     "vscode": "^1.60.0"
   },

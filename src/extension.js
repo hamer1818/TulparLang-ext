@@ -222,6 +222,10 @@ function activate(context) {
       });
     });
 
+    // Dizi tanımlaması takibi için (çok satırlı dizileri tespit etmek için)
+    let insideArrayDefinition = false;
+    let arrayBracketCount = 0;
+
     lines.forEach((line, lineIndex) => {
       const trimmed = line.trim();
       
@@ -230,9 +234,19 @@ function activate(context) {
         return;
       }
 
+      // Çok satırlı dizi tanımlaması kontrolü
+      // Açılış ve kapanış parantezlerini say
+      const openBrackets = (trimmed.match(/\[/g) || []).length;
+      const closeBrackets = (trimmed.match(/\]/g) || []).length;
+      arrayBracketCount += openBrackets - closeBrackets;
+      
+      // Eğer parantez açıksa, dizi tanımlaması içindeyiz
+      insideArrayDefinition = arrayBracketCount > 0;
+
       // 1. Noktalı virgül kontrolü
       if (trimmed && !trimmed.endsWith('{') && !trimmed.endsWith('}') && 
-          !trimmed.startsWith('}') && !trimmed.endsWith('*/')) {
+          !trimmed.startsWith('}') && !trimmed.endsWith('*/') && 
+          !insideArrayDefinition) {  // Dizi tanımlaması içinde değilse
         // Statement türlerini kontrol et
         if (/^(int|float|str|bool|array\w*)\s+\w+\s*=/.test(trimmed) ||
             /^(return|break|continue)\b/.test(trimmed)) {
