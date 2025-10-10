@@ -236,7 +236,16 @@ function activate(context) {
         // Statement türlerini kontrol et
         if (/^(int|float|str|bool|array\w*)\s+\w+\s*=/.test(trimmed) ||
             /^(return|break|continue)\b/.test(trimmed)) {
-          if (!trimmed.endsWith(';')) {
+          // Satır sonundaki yorumları kaldırarak kontrol et
+          let codeOnly = trimmed;
+          // Satır içi yorum varsa (//) yorumdan önceki kısmı al
+          const commentIndex = codeOnly.indexOf('//');
+          if (commentIndex !== -1) {
+            codeOnly = codeOnly.substring(0, commentIndex).trim();
+          }
+          
+          // Noktalı virgül kontrolü (yorum kaldırıldıktan sonra)
+          if (!codeOnly.endsWith(';')) {
             const diagnostic = new vscode.Diagnostic(
               new vscode.Range(lineIndex, line.length - 1, lineIndex, line.length),
               'Statement should end with semicolon (;)',
@@ -249,9 +258,10 @@ function activate(context) {
       }
 
       // 2. Tip kontrolü - String'e sayı atama
+      // NOT: arrayJson[index] gibi dizi erişimlerini atla (karışık tip içerebilir)
       const stringAssignRegex = /str\s+(\w+)\s*=\s*(-?\d+\.?\d*)\s*;?/;
       let match = stringAssignRegex.exec(trimmed);
-      if (match) {
+      if (match && !trimmed.includes('[')) {  // Dizi erişimi değilse kontrol et
         const varName = match[1];
         const value = match[2];
         const diagnostic = new vscode.Diagnostic(
@@ -266,7 +276,7 @@ function activate(context) {
       // 3. Tip kontrolü - Int'e string atama
       const intStringRegex = /int\s+(\w+)\s*=\s*["'](.+?)["']\s*;?/;
       match = intStringRegex.exec(trimmed);
-      if (match) {
+      if (match && !trimmed.includes('[')) {  // Dizi erişimi değilse kontrol et
         const varName = match[1];
         const value = match[2];
         const diagnostic = new vscode.Diagnostic(
@@ -281,7 +291,7 @@ function activate(context) {
       // 4. Tip kontrolü - Bool'a yanlış değer atama
       const boolRegex = /bool\s+(\w+)\s*=\s*([^;\n]+);?/;
       match = boolRegex.exec(trimmed);
-      if (match) {
+      if (match && !trimmed.includes('[')) {  // Dizi erişimi değilse kontrol et
         const varName = match[1];
         const value = match[2].trim();
         // true, false, veya boolean expression değilse hata
@@ -335,8 +345,14 @@ function activate(context) {
       }
 
       // 6. Tanımlanmamış fonksiyon çağrısı
+      // Önce string literallerini temizle (içindeki parantezli metinler hata vermesin)
+      let cleanedLine = trimmed;
+      // String literalleri kaldır
+      cleanedLine = cleanedLine.replace(/"[^"]*"/g, '""');  // Çift tırnak içindekiler
+      cleanedLine = cleanedLine.replace(/'[^']*'/g, "''");  // Tek tırnak içindekiler
+      
       const funcCallRegex = /(\w+)\s*\(/g;
-      while ((match = funcCallRegex.exec(line)) !== null) {
+      while ((match = funcCallRegex.exec(cleanedLine)) !== null) {
         const funcName = match[1];
         // Built-in veya anahtar kelime değilse ve tanımlı değilse
         if (!BUILTIN_FUNCTIONS.some(f => f.name === funcName) && 

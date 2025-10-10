@@ -2,6 +2,31 @@
 
 All notable changes to the "vscode-olang" extension will be documented in this file.
 
+## [0.3.3] - 2025-10-10
+
+### Fixed
+- 🐛 **arrayJson Dizi Erişimlerinde Yanlış Tip Kontrolü**
+  - `arrayJson` dizilerinden veri alırken tip kontrolü artık çalışmıyor
+  - Örnek: `str isim = kullanici[0];` artık hata vermiyor (arrayJson karışık tip içerir)
+  - `int yas = kullanici[1];` ve `bool aktif = kullanici[2];` gibi kullanımlar destekleniyor
+  - Dizi erişimleri (`[index]`) tip kontrolünden muaf tutuldu
+
+## [0.3.2] - 2025-10-10
+
+### Fixed
+- 🐛 **Satır Sonundaki Yorumlar Noktalı Virgül Kontrolünde Sorun Yaratıyordu**
+  - Artık `int x = 5;  // yorum` şeklindeki satırlar doğru kontrol ediliyor
+  - Satır sonunda noktalı virgül varsa yorum olsa bile hata vermiyor
+  - Örnek: `int hak = 7; // Tahmin hakkı` → Artık uyarı yok ✅
+
+## [0.3.1] - 2025-10-10
+
+### Fixed
+- 🐛 **String İçindeki Metinler Hata Vermiyordu**
+  - String literalleri içindeki büyük harfli kelimeler artık fonksiyon olarak algılanmıyor
+  - Örnek: `print("Not: A (Mükemmel!)")` artık hata vermiyor
+  - String içindeki parantezli ifadeler düzgün çalışıyor
+
 ## [0.3.0] - 2025-10-10
 
 ### Added
