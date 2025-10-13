@@ -271,9 +271,12 @@ function activate(context) {
       });
     });
 
-    // Dizi tanımlaması takibi için (çok satırlı dizileri tespit etmek için)
+    // Dizi ve JSON object tanımlaması takibi için (çok satırlı yapıları tespit etmek için)
     let insideArrayDefinition = false;
     let arrayBracketCount = 0;
+    let insideObjectDefinition = false;
+    let objectBraceCount = 0;
+    let objectStartLine = -1;
 
     lines.forEach((line, lineIndex) => {
       const trimmed = line.trim();
@@ -292,10 +295,41 @@ function activate(context) {
       // Eğer parantez açıksa, dizi tanımlaması içindeyiz
       insideArrayDefinition = arrayBracketCount > 0;
 
+      // Çok satırlı JSON object tanımlaması kontrolü
+      // arrayJson veya object başlangıcını tespit et
+      if (/^(arrayJson|array)\s+\w+\s*=\s*\{/.test(trimmed)) {
+        insideObjectDefinition = true;
+        objectStartLine = lineIndex;
+        objectBraceCount = 0;
+      }
+      
+      // Süslü parantezleri say
+      if (insideObjectDefinition) {
+        const openBraces = (trimmed.match(/\{/g) || []).length;
+        const closeBraces = (trimmed.match(/\}/g) || []).length;
+        objectBraceCount += openBraces - closeBraces;
+        
+        // Tüm süslü parantezler kapandı mı?
+        if (objectBraceCount === 0 && trimmed.includes('}')) {
+          // Object tanımı burada bitiyor, noktalı virgül kontrolü yap
+          if (!trimmed.endsWith(';') && !trimmed.endsWith(';)')) {
+            const diagnostic = new vscode.Diagnostic(
+              new vscode.Range(lineIndex, line.length - 1, lineIndex, line.length),
+              'JSON object definition should end with semicolon (;)',
+              vscode.DiagnosticSeverity.Warning
+            );
+            diagnostic.code = 'missing-semicolon-object';
+            diagnostics.push(diagnostic);
+          }
+          insideObjectDefinition = false;
+          objectStartLine = -1;
+        }
+      }
+
       // 1. Noktalı virgül kontrolü
       if (trimmed && !trimmed.endsWith('{') && !trimmed.endsWith('}') && 
           !trimmed.startsWith('}') && !trimmed.endsWith('*/') && 
-          !insideArrayDefinition) {  // Dizi tanımlaması içinde değilse
+          !insideArrayDefinition && !insideObjectDefinition) {  // Dizi veya object tanımlaması içinde değilse
         // Statement türlerini kontrol et
         if (/^(int|float|str|bool|array\w*)\s+\w+\s*=/.test(trimmed) ||
             /^(return|break|continue)\b/.test(trimmed)) {

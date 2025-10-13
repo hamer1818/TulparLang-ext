@@ -1,0 +1,45 @@
+// Test - JSON object noktalı virgül kontrolü
+
+// HATA: Noktalı virgül eksik
+arrayJson kullanici = {
+    "isim": "Ahmet",
+    "yas": 25,
+    "aktif": true
+}
+
+// DOĞRU: Noktalı virgül var
+arrayJson kullanici2 = {
+    "isim": "Ayşe",
+    "yas": 30,
+    "aktif": true
+};
+
+// HATA: Karmaşık JSON, noktalı virgül eksik
+arrayJson ekipler = {
+    "ekipler": [
+        {
+            "lider": {
+                "isim": "Ayşe",
+                "yetenekler": ["Python", "JavaScript"]
+            }
+        },
+        {
+            "lider": {
+                "isim": "Mehmet",
+                "yetenekler": ["Java", "C#"]
+            }
+        }
+    ]
+}
+
+// DOĞRU: Karmaşık JSON, noktalı virgül var
+arrayJson ekipler2 = {
+    "takimlar": [
+        {
+            "isim": "Frontend",
+            "uyeler": 5
+        }
+    ]
+};
+
+print("Test tamamlandı!");

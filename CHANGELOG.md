@@ -2,6 +2,23 @@
 
 All notable changes to the "vscode-olang" extension will be documented in this file.
 
+## [0.4.1] - 2025-10-13
+
+### 🐛 Fixed
+- **Yorum İçindeki Kelimeler Fonksiyon Olarak Algılanma Hatası**
+  - Satır sonu yorumlarındaki (`//`) kelimeler artık fonksiyon olarak kontrol edilmiyor
+  - Örnek: `float angle = pi / 4.0;  // 45 derece (radyan)` → "derece" kelimesi hata vermiyor ✅
+  - Fonksiyon kontrolünden önce yorumlar temizleniyor
+
+### ✨ Added
+- **JSON Object Tanımlamaları için Noktalı Virgül Kontrolü**
+  - Çok satırlı `arrayJson` tanımlamalarının sonunda noktalı virgül kontrolü
+  - Süslü parantezleri (`{}`) sayarak object kapanışını tespit eder
+  - Örnek: `arrayJson data = { ... }` → Sonunda `;` yoksa uyarı verir
+  - Hata mesajı: "JSON object definition should end with semicolon (;)"
+
+---
+
 ## [0.4.0] - 2025-10-13
 
 ### ✨ Added
