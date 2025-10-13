@@ -2,12 +2,12 @@
   "name": "vscode-olang",
   "displayName": "Olang",
   "publisher": "hamer1818",
-  "version": "0.3.4",
+  "version": "0.4.1",
   "engines": {
     "vscode": "^1.60.0"
   },
   "categories": ["Programming Languages"],
-  "description": "Olang language support for VS Code — syntax highlighting, IntelliSense, type checking, unused variable detection, hover info, diagnostics, snippets and a Run command.",
+  "description": "Olang language support for VS Code — syntax highlighting, IntelliSense, type checking, unused variable detection, hover info, diagnostics, snippets, math functions and a Run command.",
   "repository": {
     "type": "git",
     "url": "https://github.com/hamer1818/OLang.git"

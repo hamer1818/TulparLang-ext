@@ -5,18 +5,67 @@ const path = require('path');
 const KEYWORDS = ['if', 'else', 'for', 'while', 'func', 'return', 'break', 'continue', 'in'];
 const TYPES = ['int', 'float', 'str', 'bool', 'array', 'arrayInt', 'arrayFloat', 'arrayStr', 'arrayBool', 'arrayJson'];
 const BUILTIN_FUNCTIONS = [
+  // I/O Fonksiyonları
   { name: 'print', description: 'Konsola çıktı yazdırır', params: '(...values)' },
   { name: 'input', description: 'Kullanıcıdan string girişi alır', params: '(prompt: str)' },
   { name: 'inputInt', description: 'Kullanıcıdan integer girişi alır', params: '(prompt: str)' },
   { name: 'inputFloat', description: 'Kullanıcıdan float girişi alır', params: '(prompt: str)' },
+  
+  // Dizi Fonksiyonları
   { name: 'length', description: 'Dizi veya string uzunluğunu döner', params: '(array/str)' },
   { name: 'push', description: 'Diziye eleman ekler', params: '(array, value)' },
   { name: 'pop', description: 'Diziden son elemanı çıkarır', params: '(array)' },
   { name: 'range', description: 'Belirtilen aralıkta sayı dizisi oluşturur', params: '(start, end)' },
+  
+  // Tip Dönüşüm Fonksiyonları
   { name: 'toInt', description: 'Değeri integer\'a çevirir', params: '(value)' },
   { name: 'toFloat', description: 'Değeri float\'a çevirir', params: '(value)' },
   { name: 'toString', description: 'Değeri string\'e çevirir', params: '(value)' },
-  { name: 'toBool', description: 'Değeri boolean\'a çevirir', params: '(value)' }
+  { name: 'toBool', description: 'Değeri boolean\'a çevirir', params: '(value)' },
+  
+  // Temel Matematik Fonksiyonları
+  { name: 'abs', description: 'Mutlak değer alır', params: '(x: float)' },
+  { name: 'sqrt', description: 'Karekök hesaplar', params: '(x: float)' },
+  { name: 'cbrt', description: 'Küp kök hesaplar', params: '(x: float)' },
+  { name: 'pow', description: 'Üs alma (x^y)', params: '(x: float, y: float)' },
+  { name: 'hypot', description: 'Hipotenüs hesaplar √(x²+y²)', params: '(x: float, y: float)' },
+  
+  // Yuvarlama Fonksiyonları
+  { name: 'floor', description: 'Aşağı yuvarlar', params: '(x: float)' },
+  { name: 'ceil', description: 'Yukarı yuvarlar', params: '(x: float)' },
+  { name: 'round', description: 'En yakın tamsayıya yuvarlar', params: '(x: float)' },
+  { name: 'trunc', description: 'Ondalık kısmı atar', params: '(x: float)' },
+  
+  // Trigonometri Fonksiyonları
+  { name: 'sin', description: 'Sinüs hesaplar (radyan)', params: '(x: float)' },
+  { name: 'cos', description: 'Kosinüs hesaplar (radyan)', params: '(x: float)' },
+  { name: 'tan', description: 'Tanjant hesaplar (radyan)', params: '(x: float)' },
+  { name: 'asin', description: 'Arksinüs hesaplar', params: '(x: float)' },
+  { name: 'acos', description: 'Arkkosinüs hesaplar', params: '(x: float)' },
+  { name: 'atan', description: 'Arktanjant hesaplar', params: '(x: float)' },
+  { name: 'atan2', description: 'İki değişkenli arktanjant', params: '(y: float, x: float)' },
+  
+  // Hiperbolik Fonksiyonlar
+  { name: 'sinh', description: 'Hiperbolik sinüs', params: '(x: float)' },
+  { name: 'cosh', description: 'Hiperbolik kosinüs', params: '(x: float)' },
+  { name: 'tanh', description: 'Hiperbolik tanjant', params: '(x: float)' },
+  
+  // Logaritma ve Üstel Fonksiyonlar
+  { name: 'exp', description: 'e üzeri x (e^x)', params: '(x: float)' },
+  { name: 'log', description: 'Doğal logaritma (ln)', params: '(x: float)' },
+  { name: 'log10', description: '10 tabanlı logaritma', params: '(x: float)' },
+  { name: 'log2', description: '2 tabanlı logaritma', params: '(x: float)' },
+  
+  // İstatistik Fonksiyonları
+  { name: 'min', description: 'En küçük değeri bulur', params: '(...values)' },
+  { name: 'max', description: 'En büyük değeri bulur', params: '(...values)' },
+  
+  // Rastgele Sayı Fonksiyonları
+  { name: 'random', description: '0 ile 1 arası rastgele sayı', params: '()' },
+  { name: 'randint', description: 'Belirtilen aralıkta rastgele tamsayı', params: '(min: int, max: int)' },
+  
+  // Diğer Matematik Fonksiyonları
+  { name: 'fmod', description: 'Kayan noktalı modulo', params: '(x: float, y: float)' }
 ];
 
 /**
@@ -359,20 +408,28 @@ function activate(context) {
       }
 
       // 6. Tanımlanmamış fonksiyon çağrısı
-      // Önce string literallerini temizle (içindeki parantezli metinler hata vermesin)
+      // Önce string literallerini ve yorumları temizle
       let cleanedLine = trimmed;
-      // String literalleri kaldır
+      
+      // Satır sonu yorumunu kaldır (//)
+      const commentIndex = cleanedLine.indexOf('//');
+      if (commentIndex !== -1) {
+        cleanedLine = cleanedLine.substring(0, commentIndex).trim();
+      }
+      
+      // String literalleri kaldır (içindeki parantezli metinler hata vermesin)
       cleanedLine = cleanedLine.replace(/"[^"]*"/g, '""');  // Çift tırnak içindekiler
       cleanedLine = cleanedLine.replace(/'[^']*'/g, "''");  // Tek tırnak içindekiler
       
       const funcCallRegex = /(\w+)\s*\(/g;
-      while ((match = funcCallRegex.exec(cleanedLine)) !== null) {
-        const funcName = match[1];
+      let match2;
+      while ((match2 = funcCallRegex.exec(cleanedLine)) !== null) {
+        const funcName = match2[1];
         // Built-in veya anahtar kelime değilse ve tanımlı değilse
         if (!BUILTIN_FUNCTIONS.some(f => f.name === funcName) && 
             !KEYWORDS.includes(funcName) &&
             !functions.has(funcName)) {
-          const startPos = match.index;
+          const startPos = match2.index;
           const diagnostic = new vscode.Diagnostic(
             new vscode.Range(lineIndex, startPos, lineIndex, startPos + funcName.length),
             `Function '${funcName}' is not defined`,

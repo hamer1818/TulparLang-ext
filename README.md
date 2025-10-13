@@ -1,13 +1,17 @@
 # Olang VS Code Extension
 
-**Olang** dili için tam özellikli VS Code uzantısı — sözdizimi vurgulama, IntelliSense, tip kontrolü, kullanılmayan kod algılama, hover bilgisi, diagnostics, snippet'ler ve "Run Olang File" komutu.
+**Olang** dili için tam özellikli VS Code uzantısı — sözdizimi vurgulama, IntelliSense, tip kontrolü, kullanılmayan kod algılama, hover bilgisi, diagnostics, matematik fonksiyonları, snippet'ler ve "Run Olang File" komutu.
 
 ## 🚀 Özellikler
 
 ### 🧠 IntelliSense (Otomatik Tamamlama)
 - **Anahtar kelimeler**: `if`, `else`, `for`, `while`, `func`, `return`, `break`, `continue`
 - **Veri tipleri**: `int`, `float`, `str`, `bool`, `array`, `arrayInt`, `arrayFloat`, `arrayStr`, `arrayBool`, `arrayJson`
-- **Yerleşik fonksiyonlar**: `print`, `input`, `inputInt`, `inputFloat`, `length`, `push`, `pop`, `range`, `toInt`, `toFloat`, `toString`, `toBool`
+- **Yerleşik fonksiyonlar**: 
+  - **I/O**: `print`, `input`, `inputInt`, `inputFloat`
+  - **Dizi**: `length`, `push`, `pop`, `range`
+  - **Tip dönüşüm**: `toInt`, `toFloat`, `toString`, `toBool`
+  - **Matematik**: `abs`, `sqrt`, `pow`, `sin`, `cos`, `tan`, `log`, `exp`, `floor`, `ceil`, `round`, `min`, `max`, `random`, `randint` ve 12+ fonksiyon daha
 - **Kullanıcı tanımlı fonksiyonlar**: Dosyadaki tüm fonksiyonlar otomatik algılanır
 - **Değişkenler**: Tanımlı değişkenler tip bilgisiyle birlikte önerilir
 
@@ -37,17 +41,35 @@
 ### ✨ Sözdizimi Vurgulama
 - Anahtar kelimeler: `if`, `else`, `for`, `while`, `func`, `return`, `break`, `continue`, `in`
 - Veri tipleri: `int`, `float`, `str`, `bool`, `array`, `arrayInt`, `arrayFloat`, `arrayStr`, `arrayBool`, `arrayJson`
-- Yerleşik fonksiyonlar: `print`, `input`, `inputInt`, `inputFloat`, `length`, `push`, `pop`, `range`, `toInt`, `toFloat`, `toString`, `toBool`
+- Yerleşik fonksiyonlar: 
+  - I/O: `print`, `input`, `inputInt`, `inputFloat`
+  - Dizi: `length`, `push`, `pop`, `range`
+  - Tip dönüşüm: `toInt`, `toFloat`, `toString`, `toBool`
+  - Matematik (27 fonksiyon): `abs`, `sqrt`, `cbrt`, `pow`, `hypot`, `floor`, `ceil`, `round`, `trunc`, `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `atan2`, `sinh`, `cosh`, `tanh`, `exp`, `log`, `log10`, `log2`, `min`, `max`, `random`, `randint`, `fmod`
 - Operatörler: `&&`, `||`, `!`, `==`, `!=`, `<=`, `>=`, `++`, `--`, `+=`, `-=`, `*=`, `/=`
 - Yorumlar: `//` satır yorumu, `/* */` blok yorumu
 
 ### 📝 Snippet'ler (Kod Şablonları)
+
+#### Temel Yapılar
 - `print` → Print statement
 - `oint`, `ofloat`, `ostr`, `obool` → Değişken tanımlamaları
 - `oarray`, `oarrayint`, `oarraystr` → Dizi tanımlamaları
 - `oif`, `oifelse` → If/else yapıları
 - `owhile`, `ofor`, `oforin` → Döngüler
 - `ofunc`, `ofuncr` → Fonksiyon tanımlamaları
+
+#### Matematik Fonksiyonları
+- `osqrt` → Karekök (`sqrt(value)`)
+- `opow` → Üs alma (`pow(base, exp)`)
+- `oabs` → Mutlak değer (`abs(value)`)
+- `ofloor`, `oceil`, `oround` → Yuvarlama fonksiyonları
+- `osin`, `ocos`, `otan` → Trigonometrik fonksiyonlar
+- `olog`, `olog10`, `oexp` → Logaritma ve üstel fonksiyonlar
+- `orandom`, `orandint` → Rastgele sayı üretimi
+- `omin`, `omax` → Min/max değer bulma
+- `opythag` → Pisagor teoremi (`√(a²+b²)`)
+- `orad` → Derece → Radyan dönüşümü
 - `oinput`, `oinputint` → Kullanıcı girişi
 - `ocomment` → Bölüm yorumu
 

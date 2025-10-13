@@ -2,6 +2,40 @@
 
 All notable changes to the "vscode-olang" extension will be documented in this file.
 
+## [0.4.0] - 2025-10-13
+
+### ✨ Added
+- **27 Matematik Fonksiyonu Eklendi**:
+  - **Temel Matematik**: `abs`, `sqrt`, `cbrt`, `pow`, `hypot`
+  - **Yuvarlama**: `floor`, `ceil`, `round`, `trunc`
+  - **Trigonometri**: `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `atan2`
+  - **Hiperbolik**: `sinh`, `cosh`, `tanh`
+  - **Logaritma**: `exp`, `log`, `log10`, `log2`
+  - **İstatistik**: `min`, `max` (variadic - sınırsız argüman)
+  - **Rastgele Sayı**: `random`, `randint`
+  - **Diğer**: `fmod`
+
+- **16 Yeni Matematik Snippet'i**:
+  - `osqrt`, `opow`, `oabs` - Temel matematik fonksiyonları
+  - `ofloor`, `oceil`, `oround` - Yuvarlama işlemleri
+  - `osin`, `ocos`, `otan` - Trigonometrik fonksiyonlar
+  - `olog`, `olog10`, `oexp` - Logaritma ve üstel fonksiyonlar
+  - `orandom`, `orandint` - Rastgele sayı üretimi
+  - `omin`, `omax` - Min/Max değer bulma
+  - `opythag` - Pisagor teoremi kısayolu (`√(a²+b²)`)
+  - `orad` - Derece → Radyan dönüşüm formülü
+
+### 🎨 Improved
+- Syntax highlighting: 27 matematik fonksiyonu eklendi
+- IntelliSense: Tüm matematik fonksiyonları için otomatik tamamlama
+- Hover bilgisi: Matematik fonksiyonları için parametreler ve açıklamalar
+
+### 📚 Documentation
+- README güncellendi: Matematik fonksiyonları bölümü eklendi
+- `math_demo.olang`: Tüm matematik fonksiyonlarını gösteren kapsamlı demo dosyası
+
+---
+
 ## [0.3.4] - 2025-10-10
 
 ### Fixed

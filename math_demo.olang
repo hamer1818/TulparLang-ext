@@ -1,0 +1,106 @@
+// ========================================
+// OLANG v1.4.0 - MATEMATİK FONKSİYONLARI
+// ========================================
+
+print("=== OLang Matematik Kütüphanesi Demo ===");
+print("");
+
+// ----------------------------------------
+// TEMEL MATEMATİK
+// ----------------------------------------
+print("--- Temel Matematik ---");
+print("abs(-42) =", abs(-42));
+print("sqrt(144) =", sqrt(144));
+print("cbrt(27) =", cbrt(27));
+print("pow(2, 10) =", pow(2, 10));
+print("hypot(3, 4) =", hypot(3, 4));
+print("");
+
+// ----------------------------------------
+// YUVARLAMA İŞLEMLERİ
+// ----------------------------------------
+print("--- Yuvarlama ---");
+float pi = 3.14159;
+print("floor(3.7) =", floor(3.7));
+print("ceil(3.2) =", ceil(3.2));
+print("round(3.5) =", round(3.5));
+print("trunc(3.9) =", trunc(3.9));
+print("");
+
+// ----------------------------------------
+// TRİGONOMETRİ
+// ----------------------------------------
+print("--- Trigonometri ---");
+float rad90 = pi / 2.0;
+float rad45 = pi / 4.0;
+print("sin(π/2) =", sin(rad90));
+print("cos(0) =", cos(0));
+print("tan(π/4) =", tan(rad45));
+print("");
+
+// ----------------------------------------
+// LOGARİTMA VE ÜSTEL
+// ----------------------------------------
+print("--- Logaritma & Üstel ---");
+print("exp(1) =", exp(1));
+print("log(2.718) =", log(2.718));
+print("log10(100) =", log10(100));
+print("log2(8) =", log2(8));
+print("");
+
+// ----------------------------------------
+// İSTATİSTİK
+// ----------------------------------------
+print("--- İstatistik ---");
+float minVal = min(15.0, 3.0, 42.0, 7.0, 23.0);
+float maxVal = max(15.0, 3.0, 42.0, 7.0, 23.0);
+print("min(15, 3, 42, 7, 23) =", minVal);
+print("max(15, 3, 42, 7, 23) =", maxVal);
+print("");
+
+// ----------------------------------------
+// RASTGELE SAYILAR
+// ----------------------------------------
+print("--- Rastgele Sayılar ---");
+print("random() =", random());
+print("randint(1, 6) =", randint(1, 6));
+print("randint(1, 100) =", randint(1, 100));
+print("");
+
+// ----------------------------------------
+// PRATİK ÖRNEKLER
+// ----------------------------------------
+print("=== Pratik Örnekler ===");
+print("");
+
+// Daire hesaplamaları
+print("--- Daire (r=5) ---");
+float r = 5.0;
+float alan = pi * pow(r, 2.0);
+float cevre = 2.0 * pi * r;
+print("Alan =", alan);
+print("Çevre =", cevre);
+print("");
+
+// Üçgen (Pisagor)
+print("--- Dik Üçgen ---");
+float a = 3.0;
+float b = 4.0;
+float c = sqrt(pow(a, 2.0) + pow(b, 2.0));
+print("Kenarlar:", a, b);
+print("Hipotenüs:", c);
+print("");
+
+// Mesafe hesaplama (2D)
+print("--- İki Nokta Arası Mesafe ---");
+float x1 = 1.0;
+float y1 = 2.0;
+float x2 = 4.0;
+float y2 = 6.0;
+float mesafe = hypot(x2 - x1, y2 - y1);
+print("P1(1,2) - P2(4,6)");
+print("Mesafe =", mesafe);
+print("");
+
+print("✅ Demo tamamlandı!");
+print("Toplam 27 matematik fonksiyonu kullanıma hazır!");

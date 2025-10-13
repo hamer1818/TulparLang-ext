@@ -92,5 +92,96 @@
       "// ----------------------------------------"
     ],
     "description": "Section comment block"
+  },
+  
+  "Square Root": {
+    "prefix": "osqrt",
+    "body": ["sqrt(${1:value})"],
+    "description": "Square root function"
+  },
+  "Power": {
+    "prefix": "opow",
+    "body": ["pow(${1:base}, ${2:exponent})"],
+    "description": "Power function (x^y)"
+  },
+  "Absolute Value": {
+    "prefix": "oabs",
+    "body": ["abs(${1:value})"],
+    "description": "Absolute value function"
+  },
+  "Floor": {
+    "prefix": "ofloor",
+    "body": ["floor(${1:value})"],
+    "description": "Floor function (round down)"
+  },
+  "Ceiling": {
+    "prefix": "oceil",
+    "body": ["ceil(${1:value})"],
+    "description": "Ceiling function (round up)"
+  },
+  "Round": {
+    "prefix": "oround",
+    "body": ["round(${1:value})"],
+    "description": "Round to nearest integer"
+  },
+  "Sin": {
+    "prefix": "osin",
+    "body": ["sin(${1:radians})"],
+    "description": "Sine function (radians)"
+  },
+  "Cos": {
+    "prefix": "ocos",
+    "body": ["cos(${1:radians})"],
+    "description": "Cosine function (radians)"
+  },
+  "Tan": {
+    "prefix": "otan",
+    "body": ["tan(${1:radians})"],
+    "description": "Tangent function (radians)"
+  },
+  "Log": {
+    "prefix": "olog",
+    "body": ["log(${1:value})"],
+    "description": "Natural logarithm (ln)"
+  },
+  "Log10": {
+    "prefix": "olog10",
+    "body": ["log10(${1:value})"],
+    "description": "Base-10 logarithm"
+  },
+  "Exp": {
+    "prefix": "oexp",
+    "body": ["exp(${1:value})"],
+    "description": "Exponential function (e^x)"
+  },
+  "Random": {
+    "prefix": "orandom",
+    "body": ["random()"],
+    "description": "Random number between 0 and 1"
+  },
+  "Random Integer": {
+    "prefix": "orandint",
+    "body": ["randint(${1:min}, ${2:max})"],
+    "description": "Random integer in range [min, max]"
+  },
+  "Min": {
+    "prefix": "omin",
+    "body": ["min(${1:values})"],
+    "description": "Minimum value"
+  },
+  "Max": {
+    "prefix": "omax",
+    "body": ["max(${1:values})"],
+    "description": "Maximum value"
+  },
+  "Pythagorean": {
+    "prefix": "opythag",
+    "body": ["sqrt(pow(${1:a}, 2) + pow(${2:b}, 2))"],
+    "description": "Pythagorean theorem: √(a²+b²)"
+  },
+  "Degrees to Radians": {
+    "prefix": "orad",
+    "body": ["${1:degrees} * 3.14159 / 180.0"],
+    "description": "Convert degrees to radians"
   }
 }
