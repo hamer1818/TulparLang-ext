@@ -183,5 +183,56 @@
     "prefix": "orad",
     "body": ["${1:degrees} * 3.14159 / 180.0"],
     "description": "Convert degrees to radians"
+  },
+  
+  "String to Uppercase": {
+    "prefix": "oupper",
+    "body": ["upper(${1:string})"],
+    "description": "Convert string to uppercase"
+  },
+  "String to Lowercase": {
+    "prefix": "olower",
+    "body": ["lower(${1:string})"],
+    "description": "Convert string to lowercase"
+  },
+  "Trim String": {
+    "prefix": "otrim",
+    "body": ["trim(${1:string})"],
+    "description": "Remove leading and trailing whitespace"
+  },
+  "Replace String": {
+    "prefix": "oreplace",
+    "body": ["replace(${1:string}, \"${2:old}\", \"${3:new}\")"],
+    "description": "Replace substring in string"
+  },
+  "Contains Substring": {
+    "prefix": "ocontains",
+    "body": ["contains(${1:string}, \"${2:substring}\")"],
+    "description": "Check if string contains substring"
+  },
+  "Substring": {
+    "prefix": "osubstring",
+    "body": ["substring(${1:string}, ${2:start}, ${3:end})"],
+    "description": "Extract substring from string"
+  },
+  "Split String": {
+    "prefix": "osplit",
+    "body": ["split(${1:string}, \"${2:delimiter}\")"],
+    "description": "Split string into array by delimiter"
+  },
+  "Join Array": {
+    "prefix": "ojoin",
+    "body": ["join(\"${1:separator}\", ${2:array})"],
+    "description": "Join array elements into string"
+  },
+  "Reverse String": {
+    "prefix": "oreverse",
+    "body": ["reverse(${1:string})"],
+    "description": "Reverse string characters"
+  },
+  "Capitalize String": {
+    "prefix": "ocapitalize",
+    "body": ["capitalize(${1:string})"],
+    "description": "Capitalize first letter"
   }
 }

@@ -12,6 +12,7 @@
   - **Dizi**: `length`, `push`, `pop`, `range`
   - **Tip dönüşüm**: `toInt`, `toFloat`, `toString`, `toBool`
   - **Matematik**: `abs`, `sqrt`, `pow`, `sin`, `cos`, `tan`, `log`, `exp`, `floor`, `ceil`, `round`, `min`, `max`, `random`, `randint` ve 12+ fonksiyon daha
+  - **String**: `upper`, `lower`, `trim`, `replace`, `contains`, `startsWith`, `endsWith`, `indexOf`, `substring`, `repeat`, `split`, `join`, `isEmpty`, `count`, `capitalize`, `reverse`
 - **Kullanıcı tanımlı fonksiyonlar**: Dosyadaki tüm fonksiyonlar otomatik algılanır
 - **Değişkenler**: Tanımlı değişkenler tip bilgisiyle birlikte önerilir
 
@@ -46,6 +47,7 @@
   - Dizi: `length`, `push`, `pop`, `range`
   - Tip dönüşüm: `toInt`, `toFloat`, `toString`, `toBool`
   - Matematik (27 fonksiyon): `abs`, `sqrt`, `cbrt`, `pow`, `hypot`, `floor`, `ceil`, `round`, `trunc`, `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `atan2`, `sinh`, `cosh`, `tanh`, `exp`, `log`, `log10`, `log2`, `min`, `max`, `random`, `randint`, `fmod`
+  - String (16 fonksiyon): `upper`, `lower`, `capitalize`, `reverse`, `trim`, `replace`, `contains`, `startsWith`, `endsWith`, `indexOf`, `count`, `substring`, `repeat`, `split`, `join`, `isEmpty`, `isDigit`, `isAlpha`
 - Operatörler: `&&`, `||`, `!`, `==`, `!=`, `<=`, `>=`, `++`, `--`, `+=`, `-=`, `*=`, `/=`
 - Yorumlar: `//` satır yorumu, `/* */` blok yorumu
 
@@ -72,6 +74,18 @@
 - `orad` → Derece → Radyan dönüşümü
 - `oinput`, `oinputint` → Kullanıcı girişi
 - `ocomment` → Bölüm yorumu
+
+#### String Fonksiyonları
+- `oupper` → Büyük harfe çevirme (`upper(s)`)
+- `olower` → Küçük harfe çevirme (`lower(s)`)
+- `otrim` → Boşlukları temizleme (`trim(s)`)
+- `oreplace` → String değiştirme (`replace(s, old, new)`)
+- `ocontains` → String içinde arama (`contains(s, sub)`)
+- `osubstring` → Alt string alma (`substring(s, start, end)`)
+- `osplit` → String'i ayırma (`split(s, delimiter)`)
+- `ojoin` → Dizi birleştirme (`join(separator, array)`)
+- `oreverse` → String'i tersine çevirme (`reverse(s)`)
+- `ocapitalize` → İlk harfi büyütme (`capitalize(s)`)
 
 ### 🏃 Run Olang File Komutu
 - Command Palette (`Ctrl+Shift+P`) → `Run Olang File`

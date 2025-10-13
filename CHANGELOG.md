@@ -2,6 +2,40 @@
 
 All notable changes to the "vscode-olang" extension will be documented in this file.
 
+## [0.5.0] - 2025-10-14
+
+### ✨ Added
+- **16 String İşleme Fonksiyonu Eklendi**:
+  - **Dönüşüm**: `upper`, `lower`, `capitalize`, `reverse`
+  - **Temizleme**: `trim`, `replace`
+  - **Arama**: `contains`, `startsWith`, `endsWith`, `indexOf`, `count`
+  - **Alt String**: `substring`, `repeat`
+  - **Bölme/Birleştirme**: `split`, `join`
+  - **Kontrol**: `isEmpty`, `isDigit`, `isAlpha`
+
+- **10 Yeni String Snippet'i**:
+  - `oupper` - String'i büyük harfe çevirme
+  - `olower` - String'i küçük harfe çevirme
+  - `otrim` - Boşlukları temizleme
+  - `oreplace` - String içinde değiştirme
+  - `ocontains` - String içinde arama
+  - `osubstring` - Alt string alma
+  - `osplit` - String'i ayırma
+  - `ojoin` - Dizi birleştirme
+  - `oreverse` - String'i tersine çevirme
+  - `ocapitalize` - İlk harfi büyütme
+
+### 🎨 Improved
+- Syntax highlighting: 16 string fonksiyonu eklendi
+- IntelliSense: Tüm string fonksiyonları için otomatik tamamlama
+- Hover bilgisi: String fonksiyonları için parametreler ve Türkçe açıklamalar
+
+### 📚 Documentation
+- README.md: String fonksiyonları bölümü eklendi
+- Toplam 59 built-in fonksiyon (43 → 59)
+
+---
+
 ## [0.4.1] - 2025-10-13
 
 ### 🐛 Fixed

@@ -65,7 +65,37 @@ const BUILTIN_FUNCTIONS = [
   { name: 'randint', description: 'Belirtilen aralıkta rastgele tamsayı', params: '(min: int, max: int)' },
   
   // Diğer Matematik Fonksiyonları
-  { name: 'fmod', description: 'Kayan noktalı modulo', params: '(x: float, y: float)' }
+  { name: 'fmod', description: 'Kayan noktalı modulo', params: '(x: float, y: float)' },
+  
+  // String Dönüşüm Fonksiyonları
+  { name: 'upper', description: 'String\'i büyük harfe çevirir', params: '(s: str)' },
+  { name: 'lower', description: 'String\'i küçük harfe çevirir', params: '(s: str)' },
+  { name: 'capitalize', description: 'İlk harfi büyük yapar', params: '(s: str)' },
+  { name: 'reverse', description: 'String\'i ters çevirir', params: '(s: str)' },
+  
+  // String Temizleme Fonksiyonları
+  { name: 'trim', description: 'Baş ve sondaki boşlukları siler', params: '(s: str)' },
+  { name: 'replace', description: 'Alt string\'i değiştirir', params: '(s: str, old: str, new: str)' },
+  
+  // String Arama Fonksiyonları
+  { name: 'contains', description: 'Alt string var mı kontrol eder', params: '(s: str, sub: str)' },
+  { name: 'startsWith', description: 'String ile başlıyor mu kontrol eder', params: '(s: str, prefix: str)' },
+  { name: 'endsWith', description: 'String ile bitiyor mu kontrol eder', params: '(s: str, suffix: str)' },
+  { name: 'indexOf', description: 'Alt string\'in ilk konumunu bulur (-1 = yok)', params: '(s: str, sub: str)' },
+  { name: 'count', description: 'Alt string kaç kez geçiyor sayar', params: '(s: str, sub: str)' },
+  
+  // String Alt String Fonksiyonları
+  { name: 'substring', description: 'Belirtilen aralıkta alt string döner', params: '(s: str, start: int, end: int)' },
+  { name: 'repeat', description: 'String\'i n kez tekrarlar', params: '(s: str, n: int)' },
+  
+  // String Bölme/Birleştirme Fonksiyonları
+  { name: 'split', description: 'String\'i ayraçla böler ve dizi döner', params: '(s: str, delimiter: str)' },
+  { name: 'join', description: 'Diziyi ayraçla birleştirip string döner', params: '(separator: str, array: arrayStr)' },
+  
+  // String Kontrol Fonksiyonları
+  { name: 'isEmpty', description: 'String boş mu kontrol eder', params: '(s: str)' },
+  { name: 'isDigit', description: 'Sadece rakam içeriyor mu kontrol eder', params: '(s: str)' },
+  { name: 'isAlpha', description: 'Sadece harf içeriyor mu kontrol eder', params: '(s: str)' }
 ];
 
 /**
