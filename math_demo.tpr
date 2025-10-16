@@ -1,8 +1,8 @@
 // ========================================
-// OLANG v1.4.0 - MATEMATİK FONKSİYONLARI
+// Tulpar v1.4.0 - MATEMATİK FONKSİYONLARI
 // ========================================
 
-print("=== OLang Matematik Kütüphanesi Demo ===");
+print("=== Tulpar Matematik Kütüphanesi Demo ===");
 print("");
 
 // ----------------------------------------

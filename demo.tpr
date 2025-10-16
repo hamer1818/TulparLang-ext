@@ -1,5 +1,5 @@
 // Demo - Yeni Özellikleri Test Et!
-print("=== OLang Eklenti Demo ===");
+print("=== Tulpar Eklenti Demo ===");
 
 // 1. IntelliSense Testi
 // "pr" yazıp Ctrl+Space ile print önerisini görün

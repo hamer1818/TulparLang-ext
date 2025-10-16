@@ -1,6 +1,6 @@
 # Change Log
 
-All notable changes to the "vscode-olang" extension will be documented in this file.
+All notable changes to the "vscode-Tulpar" extension will be documented in this file.
 
 ## [0.5.0] - 2025-10-14
 
@@ -83,7 +83,7 @@ All notable changes to the "vscode-olang" extension will be documented in this f
 
 ### 📚 Documentation
 - README güncellendi: Matematik fonksiyonları bölümü eklendi
-- `math_demo.olang`: Tüm matematik fonksiyonlarını gösteren kapsamlı demo dosyası
+- `math_demo.Tulpar`: Tüm matematik fonksiyonlarını gösteren kapsamlı demo dosyası
 
 ---
 
@@ -92,9 +92,9 @@ All notable changes to the "vscode-olang" extension will be documented in this f
 ### Fixed
 - 🐛 **Çok Satırlı Dizi Tanımlamalarında Noktalı Virgül Hatası**
   - Dizi tanımlaması satır satır yapılırken noktalı virgül kontrolü artık doğru çalışıyor
-  - Örnek: `arrayJson config = ["OLang", "1.2.1", ...];` şeklinde satır satır yazarken her satır için hata vermiyor
+  - Örnek: `arrayJson config = ["Tulpar", "1.2.1", ...];` şeklinde satır satır yazarken her satır için hata vermiyor
   - Açık parantez (`[`) kapanana kadar noktalı virgül kontrolü yapılmıyor
-  - 72. satırda `"OLang",` artık noktalı virgül hatası vermiyor ✅
+  - 72. satırda `"Tulpar",` artık noktalı virgül hatası vermiyor ✅
 
 ## [0.3.3] - 2025-10-10
 
@@ -188,8 +188,8 @@ All notable changes to the "vscode-olang" extension will be documented in this f
   - Fonksiyon tanımlama şablonları
   - Kullanıcı girişi şablonları
 
-- 🏃 **Run Olang File Komutu**
-  - Command Palette'ten .olang dosyası çalıştırma
+- 🏃 **Run Tulpar File Komutu**
+  - Command Palette'ten .Tulpar dosyası çalıştırma
   - Özelleştirilebilir çalıştırma komutu
 
 - 🎨 **Dil Konfigürasyonu**
@@ -199,4 +199,4 @@ All notable changes to the "vscode-olang" extension will be documented in this f
 
 ### Initial Release
 - İlk sürüm yayınlandı
-- Temel OLang dil desteği eklendi
+- Temel Tulpar dil desteği eklendi

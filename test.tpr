@@ -1,10 +1,10 @@
-// Test dosyası - Olang özelliklerini test et
-print("=== Olang Test ===");
+// Test dosyası - Tulpar özelliklerini test et
+print("=== Tulpar Test ===");
 
 // Değişkenler
 int sayi = 42;
 float pi = 3.14;
-str mesaj = "Merhaba Olang!";
+str mesaj = "Merhaba Tulpar!";
 bool durum = true;
 
 print("Sayı:", sayi);

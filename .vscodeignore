@@ -1,7 +1,7 @@
 .vscode/**
 .vscode-test/**
 .gitignore
-test.olang
+test.Tulpar
 node_modules/**
 *.vsix
 **/*.map
