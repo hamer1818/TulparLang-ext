@@ -2,7 +2,8 @@
   "name": "vscode-tulpar",
   "displayName": "Tulpar",
   "publisher": "hamer1818",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "icon": "tulpar.webp",
   "repository": {
     "type": "git",
     "url": "https://github.com/hamer1818/TulparLang-ext.git"
@@ -19,9 +20,18 @@
     "languages": [
       {
         "id": "tulpar",
-        "aliases": ["Tulpar", "tulpar"],
-        "extensions": [".tpr"],
-        "configuration": "./language-configuration.json"
+        "aliases": [
+          "Tulpar",
+          "tulpar"
+        ],
+        "extensions": [
+          ".tpr"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./tulpar.webp",
+          "dark": "./tulpar.webp"
+        }
       }
     ],
     "grammars": [

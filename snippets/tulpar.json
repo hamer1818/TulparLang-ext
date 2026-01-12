@@ -16,5 +16,44 @@
       "}"
     ],
     "description": "If statement"
+  },
+  "For loop": {
+    "prefix": "tfor",
+    "body": [
+      "for (int ${1:i} = 0; ${1:i} < ${2:count}; ${1:i}++) {",
+      "  $0",
+      "}"
+    ],
+    "description": "For loop"
+  },
+  "Function": {
+    "prefix": "tfunc",
+    "body": [
+      "func ${1:name}(${2:params}) {",
+      "  $0",
+      "}"
+    ],
+    "description": "Function definition"
+  },
+  "Import": {
+    "prefix": "timport",
+    "body": [
+      "import \"${1:file}.tpr\";"
+    ],
+    "description": "Import statement"
+  },
+  "Read File": {
+    "prefix": "tread",
+    "body": [
+      "str ${1:content} = read_file(\"${2:file.txt}\");"
+    ],
+    "description": "Read file content"
+  },
+  "Write File": {
+    "prefix": "twrite",
+    "body": [
+      "write_file(\"${1:file.txt}\", ${2:content});"
+    ],
+    "description": "Write content to file"
   }
 }

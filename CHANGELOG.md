@@ -2,6 +2,20 @@
 
 All notable changes to the "vscode-Tulpar" extension will be documented in this file.
 
+## [0.0.2] - 2026-01-12
+
+### ✨ Added
+- **Exception Handling Anahtar Kelimeleri**: `try`, `catch`, `finally`, `throw`
+- **Threading Fonksiyonları**: `thread_create`, `mutex_create`, `mutex_lock`, `mutex_unlock`
+- **I/O Fonksiyonları**: `sleep`
+- **HTTP Fonksiyonları**: `http_parse_request`, `http_create_response`
+- **Database Fonksiyonları**: `db_open`, `db_close`, `db_query`
+
+### 🎨 Improved
+- Syntax highlighting: 10 yeni fonksiyon ve 4 yeni keyword eklendi
+
+---
+
 ## [0.5.0] - 2025-10-14
 
 ### ✨ Added
