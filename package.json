@@ -2,7 +2,7 @@
   "name": "vscode-tulpar",
   "displayName": "Tulpar",
   "publisher": "hamer1818",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "icon": "tulpar.webp",
   "repository": {
     "type": "git",
@@ -13,6 +13,23 @@
   },
   "description": "Tulpar language support for VS Code — syntax highlighting, snippets and a Run command.",
   "main": "./src/extension.js",
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "keywords": [
+    "tulpar",
+    "programming",
+    "language",
+    "syntax",
+    "highlighting",
+    "snippets"
+  ],
+  "homepage": "https://github.com/hamer1818/TulparLang-ext",
+  "bugs": {
+    "url": "https://github.com/hamer1818/TulparLang-ext/issues"
+  },
+  "license": "MIT",
   "scripts": {
     "test": "echo \"No tests\" && exit 0"
   },
@@ -59,8 +76,8 @@
       "properties": {
         "tulpar.runCommand": {
           "type": "string",
-          "default": "tulpar run ${file}",
-          "description": "Command used to run a Tulpar file. Use ${file} to insert the active file path."
+          "default": "tulpar ${file}",
+          "description": "Command used to run a Tulpar file. Use ${file} to insert the active file path. Examples: 'tulpar ${file}' (VM mode, default), 'tulpar --aot ${file} out' (AOT compilation), 'tulpar --repl' (interactive REPL)."
         }
       }
     }

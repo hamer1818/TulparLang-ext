@@ -55,5 +55,91 @@
       "write_file(\"${1:file.txt}\", ${2:content});"
     ],
     "description": "Write content to file"
+  },
+  "Type Definition": {
+    "prefix": "ttype",
+    "body": [
+      "type ${1:Name} {",
+      "  ${2:str field};",
+      "}"
+    ],
+    "description": "Custom type definition"
+  },
+  "Try-Catch-Finally": {
+    "prefix": "ttry",
+    "body": [
+      "try {",
+      "  ${1:// code}",
+      "} catch (${2:e}) {",
+      "  ${3:// handle error}",
+      "} finally {",
+      "  ${4:// cleanup}",
+      "}"
+    ],
+    "description": "Try-catch-finally error handling"
+  },
+  "JSON Literal": {
+    "prefix": "tjson",
+    "body": [
+      "json ${1:obj} = {",
+      "  \"${2:key}\": ${3:value}",
+      "};"
+    ],
+    "description": "JSON object literal"
+  },
+  "File Read": {
+    "prefix": "tfileread",
+    "body": [
+      "str ${1:content} = file_read(\"${2:file.txt}\");"
+    ],
+    "description": "Read file using file_read"
+  },
+  "File Write": {
+    "prefix": "tfilewrite",
+    "body": [
+      "file_write(\"${1:file.txt}\", ${2:content});"
+    ],
+    "description": "Write file using file_write"
+  },
+  "Threading Example": {
+    "prefix": "tthread",
+    "body": [
+      "mutex lock = mutex_create();",
+      "int counter = 0;",
+      "",
+      "func worker() {",
+      "  mutex_lock(lock);",
+      "  counter = counter + 1;",
+      "  mutex_unlock(lock);",
+      "}",
+      "",
+      "thread_create(\"worker\", null);"
+    ],
+    "description": "Threading with mutex example"
+  },
+  "Wings HTTP Route": {
+    "prefix": "twings",
+    "body": [
+      "import \"wings\";",
+      "",
+      "func ${1:handler}() {",
+      "  return {\"message\": \"${2:Hello}\"};",
+      "}",
+      "",
+      "get(\"/${3:path}\", \"${1:handler}\");",
+      "listen(${4:3000});"
+    ],
+    "description": "Wings HTTP route with listener"
+  },
+  "Database CRUD": {
+    "prefix": "tdb",
+    "body": [
+      "int db = db_open(\"${1:app.db}\");",
+      "db_execute(db, \"CREATE TABLE IF NOT EXISTS ${2:table} (id INTEGER, name TEXT)\");",
+      "db_execute(db, \"INSERT INTO ${2:table} (id, name) VALUES (${3:1}, '${4:Alice}')\");",
+      "json rows = db_query(db, \"SELECT * FROM ${2:table}\");",
+      "db_close(db);"
+    ],
+    "description": "Database CRUD operations"
   }
 }

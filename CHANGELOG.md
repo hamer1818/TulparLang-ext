@@ -2,6 +2,26 @@
 
 All notable changes to the "vscode-Tulpar" extension will be documented in this file.
 
+## [0.0.3] - 2026-01-27
+
+### ✨ Added
+- **bigint and json types**: Added syntax highlighting for `bigint` and `json` types
+- **New snippets**: Type definitions (`ttype`), try-catch-finally (`ttry`), JSON literals (`tjson`), threading (`tthread`), HTTP routes (`twings`), database operations (`tdb`)
+- **Status bar integration**: Quick run button in status bar for easy access
+- **Enhanced built-in functions**: Added missing functions (`file_read`, `file_write`, `file_delete`, `timestamp`, `time_ms`, `clock_ms`, `db_execute`)
+- **HTTP/Wings API functions**: Added syntax highlighting for Wings and TulparAPI functions (`get`, `post`, `listen`, `route_get`, `route_post`, `api_get`, `api_post`, `api_run`, `api_json_response`)
+
+### 🎨 Improved
+- Updated run command default to `tulpar ${file}` (VM mode, aligned with Tulpar CLI)
+- Enhanced README with comprehensive feature coverage section
+- Better documentation with examples and links to Tulpar language examples
+- Improved configuration description with execution mode examples
+
+### 📚 Documentation
+- README updated with feature list, usage instructions, and examples
+- Added links to Tulpar language examples repository
+- Comprehensive feature coverage documentation
+
 ## [0.0.2] - 2026-01-12
 
 ### ✨ Added
