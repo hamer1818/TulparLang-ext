@@ -2,6 +2,110 @@
 
 All notable changes to the "vscode-Tulpar" extension will be documented in this file.
 
+## [0.3.0] - 2026-05-02
+
+### ✨ Added — Snippets
+
+- **`twingsa`** — multi-threaded Wings server (`listen_async`)
+- **`topenapi`** — auto-generated OpenAPI 3.0 doc from registered routes
+- **`tloginfo` / `tlogerror`** — Wings structured JSON logger
+- **`thttpget` / `thttppost`** — outbound HTTP client (with optional JSON parse)
+- **`torm`** — Active-Record style mini-ORM over SQLite
+- **`tnow`** — `now_iso8601()` UTC timestamp
+- **`trxc`** — `regex_capture` skeleton with `[whole, g1, g2, …]` array unpacking
+- **`tcsv`** — RFC 4180 CSV parse loop
+- **`tglob`** — shell-style file glob enumeration
+- **`tpkgdep`** — `tulpar.toml` `[dependencies]` line
+- **`tarena`** — per-request arena scope (`arena_save` / `arena_restore`)
+
+### 🎨 Improved — Grammar
+
+- 60+ new builtins highlighted: `regex_*`, `csv_*`, `file_glob`, `keys`,
+  `now_iso8601` / `format_iso8601` / `parse_iso8601` / `weekday` /
+  `date_add_seconds`, `arena_save` / `arena_restore`, `env`, `mod`,
+  `http_request` / `http_get` / `http_post` / `http_put` / `http_delete` /
+  `http_get_json` / `http_post_json` / `http_should_keepalive` /
+  `http_recv_request`, `wings_openapi` / `wings_metrics_prom` /
+  `log_info` / `log_error`, `listen_async`, `orm_open` / `orm_close` /
+  `define_model` / `orm_create` / `orm_find` / `orm_all` / `orm_where` /
+  `orm_update` / `orm_delete`, `thread_detach`.
+- Built-in lib modules consumable via `import "..."`: `wings`, `router`,
+  `http_utils`, `async`, `middleware`, `socket`, `tulpar_api`, `test`,
+  `http_client`, `orm`.
+
+### 📚 Documentation
+
+- README: outline of the new ecosystem surface (paket yöneticisi,
+  `http_client`, ORM, OpenAPI, Prometheus metrics, async server).
+
+## [0.2.0] - 2026-04-30
+
+### ✨ Added
+
+- **Language Server Protocol (LSP) entegrasyonu**
+  - Eklenti artık `tulpar --lsp` modunu spawn edip standart LSP protokolü
+    üzerinden konuşuyor. Diagnostics, dosya kaydedilmesini beklemeden her
+    keystroke'ta `textDocument/didChange` ile yenileniyor.
+  - Önceki regex tabanlı stderr scraping (`HATA (Satır N): ...` parse'ı)
+    tamamen kaldırıldı; mesajlar artık structured `range` + `severity` ile
+    geliyor, did-you-mean ipucu da diagnostic mesajının altında görünür.
+  - `tulpar.executablePath` veya `tulpar.diagnostics.enabled` değiştiğinde
+    LSP otomatik yeniden başlar — pencere reload'ı gerekmez.
+  - Sonraki sürümlerde (server tarafı eklendikçe) hover, completion,
+    go-to-definition, rename de sıfır eklenti değişikliğiyle eklenecek.
+
+### 🧹 Removed
+
+- Eski `parseDiagnostics` + `ERR_REGEXES` blokları (artık LSP).
+
+## [0.1.0] - 2026-04-29
+
+### ✨ Added
+
+- **Inline diagnostics (Problems panel)**
+  - Tulpar derleyicisinin `HATA (Satır N): ...`, `Ayristirma hatasi: ... at line N`,
+    `Atamada tanimsiz degisken: ...` formatındaki çıktısı parse edilip VS Code'un
+    Problems paneline yansıtıldı.
+  - Dosya kaydedildiğinde otomatik kontrol (`tulpar.diagnostics.runOnSave`).
+  - Manuel kontrol için **Tulpar: Check File (Diagnostics)** komutu.
+- **Yeni komutlar (her biri ayrı durumlu terminal kullanır)**
+  - **Tulpar: Run File** — varsayılan (silent AOT + VM fallback).
+  - **Tulpar: Run with VM** — `tulpar --vm <file>`.
+  - **Tulpar: Build (AOT)** — standalone executable üretir (`tulpar build <file>`).
+  - **Tulpar: Build & Run (AOT)** — `tulpar --aot <file>`.
+  - **Tulpar: Open REPL** — `tulpar --repl`.
+- **İki status bar düğmesi:** `▶ Tulpar Run` ve `📦 Tulpar Build`.
+- **Yeni snippet'ler**
+  - `tfunci` — Tulpar'ın native AOT path'ini tetikleyen typed-return fonksiyonu (`func name(...): int { ... }`).
+  - `trouter` — `lib/router.tpr` ile basit GET endpoint.
+  - `tapi` — FastAPI-style `lib/tulpar_api.tpr` iskeleti.
+  - `tsocket` — TCP socket server iskeleti.
+  - `tasync`, `tmw` — async + middleware blokları.
+  - `tjsonarr`, `tforin`, `twhile`, `tifelse`, `tp`, `tps`.
+- **Genişletilmiş yapılandırma**
+  - `tulpar.executablePath` — derleyicinin yolu (PATH'te değilse).
+  - `tulpar.diagnostics.enabled` / `tulpar.diagnostics.runOnSave`.
+  - `tulpar.aot.outputName` — AOT build'in varsayılan çıktı adı.
+  - `tulpar.runCommand` opsiyonel olarak korundu (boşsa varsayılan kullanılır).
+
+### 🎨 Improved
+
+- **Grammar yenilendi**
+  - `func name(...): int { ... }` typed-return sözdizimi vurgulanıyor (Tulpar'ın
+    yeni native codegen yolu için kritik).
+  - Function declaration adı `entity.name.function`; user-defined call site'lar da yakalanıyor.
+  - `type` ve `null` artık keyword olarak tanınıyor.
+  - Hex literal (`0x...`) ve scientific float desteği.
+  - ALL_CAPS tanımlayıcılar `variable.other.constant` olarak vurgulanıyor (`PI`, `PORT`, vb.).
+- **Built-in fonksiyon listesi** Tulpar'ın güncel embed'lenmiş kütüphanelerine
+  göre yenilendi: `api_init`, `api_use`, `api_put`, `api_delete`, socket
+  ailesi, `async_run`, `middleware_use`, `db_prepare`/`db_step`/`db_finalize`,
+  `epoch_ms`, vb. (60+ → 130+).
+
+### 📚 Documentation
+
+- README'ye Diagnostics ve yeni komutlar bölümü eklendi.
+
 ## [0.0.3] - 2026-01-27
 
 ### ✨ Added

@@ -1,9 +1,25 @@
 .vscode/**
 .vscode-test/**
 .gitignore
-test.Tulpar
-node_modules/**
-*.vsix
-**/*.map
 .git
 .github
+*.vsix
+**/*.map
+
+# node_modules stays out by default; only the runtime dependency
+# (vscode-languageclient and its transitive deps) is whitelisted below.
+node_modules/**
+!node_modules/vscode-languageclient/**
+!node_modules/vscode-languageserver-protocol/**
+!node_modules/vscode-languageserver-types/**
+!node_modules/vscode-jsonrpc/**
+!node_modules/semver/**
+!node_modules/minimatch/**
+!node_modules/balanced-match/**
+!node_modules/brace-expansion/**
+
+# Local development scratch files (not part of the published extension)
+test.tpr
+test-*.tpr
+demo.tpr
+math_demo.tpr

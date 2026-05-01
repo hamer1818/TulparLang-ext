@@ -1,87 +1,98 @@
 # Tulpar VS Code Extension
 
-Basic VS Code support for the Tulpar language: syntax highlighting, snippets, and a "Run Tulpar File" command.
+VS Code support for the [TulparLang](https://github.com/hamer1818/TulparLang) language: syntax highlighting, snippets, run/build/REPL commands, and inline error diagnostics from the Tulpar compiler.
 
 ## Features
 
-- **Syntax Highlighting**: Full support for Tulpar keywords, types (including `bigint` and `json`), operators, and built-in functions
-- **Code Snippets**: Quick templates for common patterns (functions, loops, error handling, JSON, threading, HTTP routes, database operations)
-- **Run Command**: Execute Tulpar files directly from VS Code
-- **Status Bar Integration**: Quick access button to run the current file
+- **Full Language Server** — `tulpar --lsp` powers diagnostics, hover, completion, go-to-definition, find-references, and rename. The extension auto-spawns the LSP and restarts it when `tulpar.executablePath` or `tulpar.diagnostics.enabled` changes.
+- **Syntax highlighting** for the full Tulpar grammar, including the typed-return form `func name(...): int { ... }` that triggers Tulpar's native AOT codegen path.
+- **Code snippets** for the whole stdlib surface (functions, loops, error handling, JSON, Wings/Router HTTP, async server, ORM, http_client, OpenAPI, regex, CSV, datetime, package manifest, …) — see the list below.
+- **Run / Build / REPL commands** for every Tulpar execution mode:
+  - `Tulpar: Run File` — default (silent AOT, falls back to VM).
+  - `Tulpar: Run with VM` — `tulpar --vm <file>`.
+  - `Tulpar: Build (AOT)` — produces a standalone executable.
+  - `Tulpar: Build & Run (AOT)` — `tulpar --aot <file>`.
+  - `Tulpar: Open REPL`.
+- **Status bar buttons** for the two most common actions: **▶ Tulpar Run** and **📦 Tulpar Build**.
 
 ## Usage
 
-- Install the extension or run it in development mode (F5)
-- Your Tulpar files should have the `.tpr` extension
-- To run the active file:
-  - Use the status bar button (bottom right: "▶ Tulpar: Run")
-  - Or use Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) → `Run Tulpar File`
+1. Install the extension (`.vsix`) or open this folder and press `F5` to launch a development host.
+2. Make sure the `tulpar` (or `tulpar.exe`) compiler is on your `PATH`, or set `tulpar.executablePath` in settings.
+3. Open any `.tpr` file. Use the status bar (`▶ Tulpar Run`, `📦 Tulpar Build`) or the Command Palette to invoke commands.
 
 ## Configuration
 
-- **`tulpar.runCommand`**: Customize the command used to run Tulpar files. Default: `tulpar ${file}`
-  - Examples:
-    - `tulpar ${file}` - Run via VM (default)
-    - `tulpar --aot ${file} out` - Compile to native binary
-    - `tulpar --repl` - Start interactive REPL
+| Setting | Default | Purpose |
+| --- | --- | --- |
+| `tulpar.executablePath` | `tulpar` | Absolute path to the Tulpar compiler if not on `PATH` (e.g. `D:/yazilim/Tulpar/tulpar.exe`). |
+| `tulpar.runCommand` | *(empty)* | Optional override for `Tulpar: Run File`. Use `${file}` for the active file. Empty = use the built-in default. |
+| `tulpar.diagnostics.enabled` | `true` | Surface compiler errors in the Problems panel. |
+| `tulpar.diagnostics.runOnSave` | `true` | Re-run the diagnostic check whenever a `.tpr` file is saved. |
+| `tulpar.aot.outputName` | *(empty)* | Output executable name for `Tulpar: Build (AOT)`. Empty = derived from source file name. |
 
 ## Snippets
 
-Available snippets (type prefix and press Tab):
+Type the prefix and press Tab:
 
-- `tmain` - Main function
-- `tif` - If statement
-- `tfor` - For loop
-- `tfunc` - Function definition
-- `timport` - Import statement
-- `ttype` - Custom type definition
-- `ttry` - Try-catch-finally error handling
-- `tjson` - JSON object literal
-- `tread` / `tfileread` - Read file
-- `twrite` / `tfilewrite` - Write file
-- `tthread` - Threading with mutex example
-- `twings` - Wings HTTP route
-- `tdb` - Database CRUD operations
+| Prefix | Expands to |
+| --- | --- |
+| `tmain` | `func main() { … }` |
+| `tfunci` | Typed-return function (`func name(...): int { … }`) — uses native AOT codegen |
+| `tfunc` | Untyped function |
+| `tif` / `tifelse` | If / If-else |
+| `tfor` / `tforin` / `twhile` | Loops |
+| `ttry` | Try / catch / finally |
+| `ttype` | Custom type definition |
+| `tjson` / `tjsonarr` | JSON object / array |
+| `timport` | Import statement |
+| `tread` / `twrite` | File I/O |
+| `tthread` | Thread + mutex skeleton |
+| `twings` | Wings HTTP route |
+| `trouter` | `lib/router.tpr` GET endpoint |
+| `tapi` | FastAPI-style `lib/tulpar_api.tpr` scaffold |
+| `tsocket` | TCP socket server |
+| `tasync` | Async block |
+| `tmw` | HTTP middleware |
+| `tdb` | SQLite CRUD |
+| `tp` / `tps` | `print(...)` / `print(toString(...))` |
+| `twingsa` | Multi-threaded Wings server (`listen_async`) |
+| `topenapi` | Auto-generated OpenAPI 3.0 doc handler |
+| `tloginfo` / `tlogerror` | Wings structured JSON logger |
+| `thttpget` / `thttppost` | Outbound HTTP client (with optional JSON parse) |
+| `torm` | Active-Record style mini-ORM over SQLite |
+| `tnow` | `now_iso8601()` UTC timestamp |
+| `trxc` | `regex_capture` skeleton |
+| `tcsv` | RFC 4180 CSV parse loop |
+| `tglob` | `file_glob` enumeration |
+| `tpkgdep` | `tulpar.toml` `[dependencies]` line |
+| `tarena` | Per-request arena scope (`arena_save` / `arena_restore`) |
+
+## Language Server
+
+The extension speaks LSP to the bundled `tulpar --lsp` server. You get:
+
+- **Diagnostics** — parser + codegen errors with structured `range` (no more line-1 fallback) and the same did-you-mean / Rust-style hint that the CLI shows.
+- **Hover** — function signatures (user-defined + 80+ builtins) with leading-comment doc strings.
+- **Completion** — user functions, builtins, keywords, lib modules.
+- **Go-to-definition** (`F12`) — jump from a call site to its declaration.
+- **Find references** — see every call site of a function across the file.
+- **Rename** (`F2`) — atomic renames across declaration + every call site.
+
+Trigger:
+- The LSP restarts automatically when `tulpar.executablePath` or `tulpar.diagnostics.enabled` changes — no window reload needed.
+- Set `tulpar.diagnostics.enabled` to `false` to disable the LSP entirely.
 
 ## Examples
 
-Check out the Tulpar language examples in the main repository:
+Tulpar language examples in the upstream repo:
+
 - [Math & Logic](https://github.com/hamer1818/TulparLang/tree/main/examples/04_math_logic.tpr)
 - [Data Structures](https://github.com/hamer1818/TulparLang/tree/main/examples/06_data_structures.tpr)
 - [Try-Catch](https://github.com/hamer1818/TulparLang/tree/main/examples/10_try_catch.tpr)
 - [Router App](https://github.com/hamer1818/TulparLang/tree/main/examples/11_router_app.tpr)
-
-## Feature Coverage
-
-This extension supports the following Tulpar language features:
-
-### Keywords
-✅ `if`, `else`, `for`, `while`, `return`, `break`, `continue`, `func`, `import`, `type`, `try`, `catch`, `finally`, `throw`
-
-### Types
-✅ `int`, `float`, `str`, `bool`, `bigint`, `json`, `array`, `arrayInt`, `arrayFloat`, `arrayStr`, `arrayBool`, `arrayJson`
-
-### Built-in Functions
-✅ Syntax highlighting for all built-in functions including:
-- I/O: `print`, `input`, `inputInt`, `inputFloat`
-- Type Conversion: `toInt`, `toFloat`, `toString`, `toBool`
-- Math: `abs`, `sqrt`, `pow`, `sin`, `cos`, `tan`, `log`, `exp`, `floor`, `ceil`, `round`, `random`, `randint`, `min`, `max`
-- String: `length`, `upper`, `lower`, `trim`, `split`, `join`, `replace`, `substring`, `contains`, `startsWith`, `endsWith`, `indexOf`
-- Array: `push`, `pop`, `length`, `range`
-- JSON: `toJson`, `fromJson`
-- Time: `timestamp`, `time_ms`, `clock_ms`, `sleep`
-- File: `file_read`, `file_write`, `file_exists`, `file_delete`
-- Threading: `thread_create`, `mutex_create`, `mutex_lock`, `mutex_unlock`
-- Network: `socket_server`, `socket_accept`, `socket_receive`, `socket_send`, `socket_close`
-- HTTP/Wings: `get`, `post`, `listen`, `route_get`, `route_post`, `api_get`, `api_post`, `api_run`, `api_json_response`
-- Database: `db_open`, `db_close`, `db_query`, `db_execute`
-
-### Execution Modes
-✅ Configurable run command supporting:
-- VM mode (default): `tulpar ${file}`
-- AOT compilation: `tulpar --aot ${file} out`
-- REPL mode: `tulpar --repl`
+- [Tulpar API Demo](https://github.com/hamer1818/TulparLang/tree/main/examples/tulpar_api_demo.tpr)
 
 ## Notes
 
-- This extension provides basic language support. For advanced features like IntelliSense, hover documentation, and go-to-definition, consider adding an LSP server in the future.
+This extension currently uses the Tulpar compiler as an external diagnostic source rather than a full Language Server. IntelliSense, hover docs, go-to-definition and rename are not provided yet — adding an LSP would be the natural next step.

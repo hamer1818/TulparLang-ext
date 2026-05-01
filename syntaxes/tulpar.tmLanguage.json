@@ -2,30 +2,16 @@
   "scopeName": "source.tulpar",
   "name": "Tulpar",
   "patterns": [
-    {
-      "include": "#comments"
-    },
-    {
-      "include": "#strings"
-    },
-    {
-      "include": "#numbers"
-    },
-    {
-      "include": "#keywords"
-    },
-    {
-      "include": "#types"
-    },
-    {
-      "include": "#functions"
-    },
-    {
-      "include": "#constants"
-    },
-    {
-      "include": "#operators"
-    }
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#function-declaration" },
+    { "include": "#return-type" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#functions" },
+    { "include": "#constants" },
+    { "include": "#operators" }
   ],
   "repository": {
     "comments": {
@@ -70,16 +56,54 @@
     "numbers": {
       "patterns": [
         {
+          "name": "constant.numeric.float.tulpar",
+          "match": "\\b\\d+\\.\\d+(?:[eE][+-]?\\d+)?\\b"
+        },
+        {
+          "name": "constant.numeric.hex.tulpar",
+          "match": "\\b0[xX][0-9a-fA-F]+\\b"
+        },
+        {
           "name": "constant.numeric.tulpar",
-          "match": "\\b\\d+(?:\\.\\d+)?\\b"
+          "match": "\\b\\d+\\b"
         }
+      ]
+    },
+    "function-declaration": {
+      "begin": "\\b(func)\\s+([A-Za-z_][A-Za-z0-9_]*)\\b",
+      "beginCaptures": {
+        "1": { "name": "storage.type.function.tulpar" },
+        "2": { "name": "entity.name.function.tulpar" }
+      },
+      "end": "(?=\\(|\\{|;|$)"
+    },
+    "return-type": {
+      "begin": "\\)\\s*(:)\\s*",
+      "beginCaptures": {
+        "1": { "name": "punctuation.separator.return-type.tulpar" }
+      },
+      "end": "(?=\\{|;|=>|$)",
+      "patterns": [
+        { "include": "#types" }
       ]
     },
     "keywords": {
       "patterns": [
         {
           "name": "keyword.control.tulpar",
-          "match": "\\b(?:if|else|for|while|return|break|continue|in|func|import|type|try|catch|finally|throw)\\b"
+          "match": "\\b(?:if|else|for|while|do|return|break|continue|in|switch|case|default)\\b"
+        },
+        {
+          "name": "keyword.control.exception.tulpar",
+          "match": "\\b(?:try|catch|finally|throw)\\b"
+        },
+        {
+          "name": "keyword.other.import.tulpar",
+          "match": "\\b(?:import|export|from|as)\\b"
+        },
+        {
+          "name": "storage.type.declaration.tulpar",
+          "match": "\\b(?:func|type|enum|struct|interface|var|const|let)\\b"
         }
       ]
     },
@@ -87,23 +111,40 @@
       "patterns": [
         {
           "name": "storage.type.tulpar",
-          "match": "\\b(?:int|float|str|bool|bigint|json|array|arrayInt|arrayFloat|arrayStr|arrayBool|arrayJson)\\b"
+          "match": "\\b(?:int|float|str|string|bool|bigint|json|array|arrayInt|arrayFloat|arrayStr|arrayBool|arrayJson|void|any|null|mutex|thread|socket_t|file)\\b"
         }
       ]
     },
     "functions": {
       "patterns": [
         {
-          "name": "entity.name.function.tulpar",
-          "match": "\\b(?:print|input|inputInt|inputFloat|length|push|pop|range|toInt|toFloat|toString|toBool|toJson|fromJson|abs|sqrt|cbrt|pow|hypot|floor|ceil|round|trunc|sin|cos|tan|asin|acos|atan|atan2|sinh|cosh|tanh|exp|log|log10|log2|min|max|random|randint|fmod|mod|upper|lower|toUpper|toLower|capitalize|reverse|trim|replace|contains|startsWith|endsWith|indexOf|index_of|count|substring|repeat|split|join|isEmpty|isDigit|isAlpha|file_read|file_write|file_delete|file_exists|read_file|write_file|append_file|timestamp|time_ms|clock_ms|sleep|thread_create|mutex_create|mutex_lock|mutex_unlock|http_parse_request|http_create_response|get|post|listen|route_get|route_post|api_get|api_post|api_run|api_json_response|db_open|db_close|db_query|db_execute)\\b"
+          "comment": "Built-in standard library functions (recognised at any call site).",
+          "name": "support.function.builtin.tulpar",
+          "match": "\\b(?:print|println|printf|input|inputInt|inputFloat|inputBool|len|length|push|pop|shift|unshift|range|toInt|toFloat|toString|toBool|toJson|fromJson|parseJson|stringify|abs|sqrt|cbrt|pow|hypot|floor|ceil|round|trunc|sin|cos|tan|asin|acos|atan|atan2|sinh|cosh|tanh|exp|log|log10|log2|min|max|random|randint|randf|fmod|mod|upper|lower|toUpper|toLower|capitalize|reverse|trim|trimStart|trimEnd|replace|replaceAll|contains|startsWith|endsWith|indexOf|index_of|count|substring|repeat|split|join|isEmpty|isDigit|isAlpha|isAlnum|isSpace|charAt|charCode|keys|file_read|file_write|file_append|file_delete|file_exists|file_size|read_file|write_file|append_file|list_dir|mkdir|rmdir|file_glob|csv_parse|csv_emit|timestamp|time_ms|clock_ms|epoch_ms|sleep|now_iso8601|format_iso8601|parse_iso8601|weekday|date_add_seconds|exit|env|getenv|setenv|args|argv|arena_save|arena_restore|thread_create|thread_join|thread_detach|thread_sleep|mutex_create|mutex_lock|mutex_unlock|mutex_destroy|atomic_add|http_parse_request|http_create_response|http_status_text|http_should_keepalive|http_recv_request|http_request|http_get|http_post|http_put|http_delete|http_get_json|http_post_json|path_match|parse_query|match_path|parse_query_string|get_mime_type|serve_static_file|regex_match|regex_search|regex_capture|regex_replace|socket_server|get|post|put|delete|patch|options|listen|listen_async|route_get|route_post|route_put|route_delete|route_use|json_response|wings_openapi|wings_metrics_prom|log_info|log_error|orm_open|orm_close|define_model|orm_create|orm_find|orm_all|orm_where|orm_update|orm_delete|api_init|api_use|api_get|api_post|api_put|api_delete|api_patch|api_options|api_run|api_json_response|api_json_response_status|api_error_response|api_success_response|socket_create|socket_bind|socket_listen|socket_accept|socket_connect|socket_send|socket_receive|socket_recv|socket_close|socket_setopt|async_run|async_await|promise_resolve|promise_reject|middleware_use|middleware_chain|call|typeof|instanceof|assert|assert_eq_int|assert_eq_str|assert_eq_bool|assert_contains|assert_status|assert_throws|test|test_summary|debug|trace|db_open|db_close|db_query|db_execute|db_prepare|db_bind|db_step|db_reset|db_finalize|db_last_insert_id|db_changes)\\b(?=\\s*\\()"
+        },
+        {
+          "comment": "User-defined function calls — any identifier directly followed by '('.",
+          "match": "\\b([A-Za-z_][A-Za-z0-9_]*)\\s*(?=\\()",
+          "captures": {
+            "1": { "name": "entity.name.function.tulpar" }
+          }
         }
       ]
     },
     "constants": {
       "patterns": [
         {
-          "name": "constant.language.tulpar",
+          "name": "constant.language.boolean.tulpar",
           "match": "\\b(?:true|false)\\b"
+        },
+        {
+          "name": "constant.language.null.tulpar",
+          "match": "\\b(?:null|nil|undefined|None)\\b"
+        },
+        {
+          "comment": "ALL_CAPS identifiers tend to be constants in Tulpar examples (PI, PORT, ...).",
+          "name": "variable.other.constant.tulpar",
+          "match": "\\b[A-Z][A-Z0-9_]{1,}\\b"
         }
       ]
     },
@@ -118,8 +159,12 @@
           "match": "==|!=|<=|>=|<|>"
         },
         {
+          "name": "keyword.operator.arithmetic.compound.tulpar",
+          "match": "\\+=|-=|\\*=|/=|%="
+        },
+        {
           "name": "keyword.operator.arithmetic.tulpar",
-          "match": "\\+\\+|--|\\+=|-=|\\*=|/=|\\+|-|\\*|/|%"
+          "match": "\\+\\+|--|\\+|-|\\*|/|%"
         },
         {
           "name": "keyword.operator.assignment.tulpar",

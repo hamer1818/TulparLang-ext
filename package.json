@@ -2,7 +2,7 @@
   "name": "vscode-tulpar",
   "displayName": "Tulpar",
   "publisher": "hamer1818",
-  "version": "0.0.3",
+  "version": "0.3.0",
   "icon": "tulpar.webp",
   "repository": {
     "type": "git",
@@ -11,19 +11,23 @@
   "engines": {
     "vscode": "^1.60.0"
   },
-  "description": "Tulpar language support for VS Code — syntax highlighting, snippets and a Run command.",
+  "description": "Tulpar language support for VS Code — syntax highlighting, snippets, run/build/REPL commands and inline error diagnostics.",
   "main": "./src/extension.js",
   "categories": [
     "Programming Languages",
-    "Snippets"
+    "Snippets",
+    "Linters"
   ],
   "keywords": [
     "tulpar",
+    "tulparlang",
     "programming",
     "language",
     "syntax",
     "highlighting",
-    "snippets"
+    "snippets",
+    "llvm",
+    "aot"
   ],
   "homepage": "https://github.com/hamer1818/TulparLang-ext",
   "bugs": {
@@ -67,24 +71,103 @@
     "commands": [
       {
         "command": "tulpar.runFile",
-        "title": "Run Tulpar File"
+        "title": "Tulpar: Run File",
+        "icon": "$(play)"
+      },
+      {
+        "command": "tulpar.runVM",
+        "title": "Tulpar: Run with VM"
+      },
+      {
+        "command": "tulpar.buildAOT",
+        "title": "Tulpar: Build (AOT)"
+      },
+      {
+        "command": "tulpar.runAOT",
+        "title": "Tulpar: Build & Run (AOT)"
+      },
+      {
+        "command": "tulpar.runRepl",
+        "title": "Tulpar: Open REPL"
+      },
+      {
+        "command": "tulpar.checkFile",
+        "title": "Tulpar: Check File (Diagnostics)"
       }
     ],
+    "menus": {
+      "editor/title/run": [
+        {
+          "command": "tulpar.runFile",
+          "when": "resourceLangId == tulpar",
+          "group": "navigation@1"
+        },
+        {
+          "command": "tulpar.buildAOT",
+          "when": "resourceLangId == tulpar",
+          "group": "navigation@2"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "tulpar.runFile",
+          "when": "resourceLangId == tulpar",
+          "group": "tulpar@1"
+        },
+        {
+          "command": "tulpar.buildAOT",
+          "when": "resourceLangId == tulpar",
+          "group": "tulpar@2"
+        },
+        {
+          "command": "tulpar.checkFile",
+          "when": "resourceLangId == tulpar",
+          "group": "tulpar@3"
+        }
+      ]
+    },
     "configuration": {
       "type": "object",
       "title": "Tulpar",
       "properties": {
+        "tulpar.executablePath": {
+          "type": "string",
+          "default": "tulpar",
+          "description": "Path to the Tulpar executable. Use absolute path if 'tulpar' is not on PATH (e.g. 'D:/yazilim/Tulpar/tulpar.exe')."
+        },
         "tulpar.runCommand": {
           "type": "string",
-          "default": "tulpar ${file}",
-          "description": "Command used to run a Tulpar file. Use ${file} to insert the active file path. Examples: 'tulpar ${file}' (VM mode, default), 'tulpar --aot ${file} out' (AOT compilation), 'tulpar --repl' (interactive REPL)."
+          "default": "",
+          "description": "Optional override for the default Run command. Use ${file} for the active file. If empty, the default command is built from 'tulpar.executablePath' and runs the file in VM mode."
+        },
+        "tulpar.diagnostics.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable inline diagnostics (errors/warnings shown in the Problems panel) when a Tulpar file is saved."
+        },
+        "tulpar.diagnostics.runOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Re-run the diagnostic check whenever a Tulpar file is saved. Disable for very large files where the check is too slow."
+        },
+        "tulpar.aot.outputName": {
+          "type": "string",
+          "default": "",
+          "description": "Output executable name for 'Build (AOT)'. If empty, derives from the source file name (script.tpr → script[.exe])."
         }
       }
     }
   },
   "activationEvents": [
+    "onLanguage:tulpar",
     "onCommand:tulpar.runFile",
-    "onLanguage:tulpar"
+    "onCommand:tulpar.runVM",
+    "onCommand:tulpar.buildAOT",
+    "onCommand:tulpar.runAOT",
+    "onCommand:tulpar.runRepl",
+    "onCommand:tulpar.checkFile"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  }
 }
