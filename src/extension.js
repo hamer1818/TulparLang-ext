@@ -115,6 +115,46 @@ function stopLanguageClient() {
 }
 
 // ---------------------------------------------------------------------------
+// Debug adapter
+// ---------------------------------------------------------------------------
+//
+// VS Code spawns the adapter ONCE per debug session and talks DAP over
+// the spawned process's stdio. `tulpar debug <file>` is the adapter
+// entry point: it AOT-builds the .tpr with --debug (DWARF), spawns a
+// gdb subprocess, and forwards setBreakpoints / stackTrace / variables
+// / etc. to gdb/MI. `program` is passed as argv[2] so the adapter
+// already knows the source file at startup; the launch request's
+// `arguments.program` overrides this when present (kept for clients
+// that don't go through the factory).
+class TulparDebugAdapterFactory {
+  createDebugAdapterDescriptor(session) {
+    const cfg = vscode.workspace.getConfiguration('tulpar');
+    const exe = (cfg.get('executablePath') || 'tulpar').trim();
+    const program = (session.configuration && session.configuration.program) || '';
+    return new vscode.DebugAdapterExecutable(exe, ['debug', program]);
+  }
+}
+
+// `tulpar.debug` mirrors the `Tulpar: Run File` ergonomics but routes
+// through VS Code's debug subsystem instead of a terminal. Picks up
+// the active .tpr, builds a transient launch config, and hands it to
+// `vscode.debug.startDebugging`. The launch config is identical in
+// shape to what users put in their launch.json; users who want
+// persistent settings can use the F5 + launch.json flow instead.
+async function debugActiveFile() {
+  const doc = await activeTulparDoc();
+  if (!doc) return;
+  const folder = vscode.workspace.getWorkspaceFolder(doc.uri);
+  await vscode.debug.startDebugging(folder, {
+    type: 'tulpar',
+    request: 'launch',
+    name: 'Tulpar: Debug Active File',
+    program: doc.fileName,
+    stopOnEntry: false,
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Activation
 // ---------------------------------------------------------------------------
 function activate(context) {
@@ -176,6 +216,13 @@ function activate(context) {
       if (!doc) return;
       // didSave is sent automatically by the language client on save.
     })
+  );
+
+  // ---- Debugger ----
+  context.subscriptions.push(
+    vscode.debug.registerDebugAdapterDescriptorFactory(
+      'tulpar', new TulparDebugAdapterFactory()),
+    vscode.commands.registerCommand('tulpar.debug', debugActiveFile),
   );
 
   // ---- Status bar: Run + Build buttons ----

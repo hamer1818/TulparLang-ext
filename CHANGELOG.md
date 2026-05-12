@@ -2,6 +2,26 @@
 
 All notable changes to the "vscode-Tulpar" extension will be documented in this file.
 
+## [0.4.0] - 2026-05-12
+
+### ✨ Added — Debugger integration (Plan 07 Part B)
+
+- **`Tulpar: Debug File`** komutu + status bar / editor toolbar entry
+  (`$(debug-alt)` icon). Aktif `.tpr` dosyasını `tulpar debug` DAP
+  server'ı üzerinden başlatır.
+- **`launch.json` desteği** (`type: "tulpar"`). F5 ile debugging,
+  per-line breakpoint, gdb backed step / inspection.
+  - `initialConfigurations` ve `configurationSnippets` ile VS Code
+    "Add Configuration..." flow'u Tulpar entry'sini öneriyor.
+  - `contributes.breakpoints` ile `.tpr` dosyalarına gutter
+    breakpoint koyulabiliyor.
+- **`DebugAdapterDescriptorFactory`** Tulpar derleyicisini
+  (`tulpar.executablePath`) `tulpar debug <program>` olarak spawn
+  eder; stdio DAP protokolü üzerinden VS Code'un Run and Debug
+  paneliyle konuşur.
+- Çalışma için Tulpar tarafında `tulpar debug` (TulparLang #178, #180,
+  #186, #188) + gdb yüklü olmalı.
+
 ## [0.3.0] - 2026-05-02
 
 ### ✨ Added — Snippets

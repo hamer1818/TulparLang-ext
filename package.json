@@ -2,7 +2,7 @@
   "name": "vscode-tulpar",
   "displayName": "Tulpar",
   "publisher": "hamer1818",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "icon": "tulpar.webp",
   "repository": {
     "type": "git",
@@ -16,7 +16,8 @@
   "categories": [
     "Programming Languages",
     "Snippets",
-    "Linters"
+    "Linters",
+    "Debuggers"
   ],
   "keywords": [
     "tulpar",
@@ -93,6 +94,11 @@
       {
         "command": "tulpar.checkFile",
         "title": "Tulpar: Check File (Diagnostics)"
+      },
+      {
+        "command": "tulpar.debug",
+        "title": "Tulpar: Debug File",
+        "icon": "$(debug-alt)"
       }
     ],
     "menus": {
@@ -106,6 +112,11 @@
           "command": "tulpar.buildAOT",
           "when": "resourceLangId == tulpar",
           "group": "navigation@2"
+        },
+        {
+          "command": "tulpar.debug",
+          "when": "resourceLangId == tulpar",
+          "group": "navigation@3"
         }
       ],
       "editor/context": [
@@ -123,9 +134,69 @@
           "command": "tulpar.checkFile",
           "when": "resourceLangId == tulpar",
           "group": "tulpar@3"
+        },
+        {
+          "command": "tulpar.debug",
+          "when": "resourceLangId == tulpar",
+          "group": "tulpar@4"
         }
       ]
     },
+    "breakpoints": [
+      {
+        "language": "tulpar"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "tulpar",
+        "label": "Tulpar Debug",
+        "languages": [
+          "tulpar"
+        ],
+        "configurationAttributes": {
+          "launch": {
+            "required": [
+              "program"
+            ],
+            "properties": {
+              "program": {
+                "type": "string",
+                "description": "Absolute path to the Tulpar (.tpr) source file to debug.",
+                "default": "${file}"
+              },
+              "stopOnEntry": {
+                "type": "boolean",
+                "description": "Pause at the first executable line of the program. Not yet honoured by the adapter; reserved for a future release.",
+                "default": false
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "type": "tulpar",
+            "request": "launch",
+            "name": "Tulpar: Debug Active File",
+            "program": "${file}",
+            "stopOnEntry": false
+          }
+        ],
+        "configurationSnippets": [
+          {
+            "label": "Tulpar: Debug Active File",
+            "description": "AOT-build the active .tpr with debug info (DWARF) and launch the DAP server backed by gdb.",
+            "body": {
+              "type": "tulpar",
+              "request": "launch",
+              "name": "${1:Tulpar: Debug Active File}",
+              "program": "^\"\\${file}\"",
+              "stopOnEntry": false
+            }
+          }
+        ]
+      }
+    ],
     "configuration": {
       "type": "object",
       "title": "Tulpar",
@@ -165,7 +236,10 @@
     "onCommand:tulpar.buildAOT",
     "onCommand:tulpar.runAOT",
     "onCommand:tulpar.runRepl",
-    "onCommand:tulpar.checkFile"
+    "onCommand:tulpar.checkFile",
+    "onCommand:tulpar.debug",
+    "onDebug",
+    "onDebugResolve:tulpar"
   ],
   "dependencies": {
     "vscode-languageclient": "^9.0.1"
