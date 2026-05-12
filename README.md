@@ -13,6 +13,7 @@ VS Code support for the [TulparLang](https://github.com/hamer1818/TulparLang) la
   - `Tulpar: Build (AOT)` — produces a standalone executable.
   - `Tulpar: Build & Run (AOT)` — `tulpar --aot <file>`.
   - `Tulpar: Open REPL`.
+- **Debugger** — gutter breakpoints, step / variables view, `Run and Debug` panel integration through `tulpar debug` (DAP server backed by gdb). `Tulpar: Debug File` command or F5 with a `type: "tulpar"` launch config. Requires gdb on `PATH`.
 - **Status bar buttons** for the two most common actions: **▶ Tulpar Run** and **📦 Tulpar Build**.
 
 ## Usage
