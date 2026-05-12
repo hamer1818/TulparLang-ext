@@ -1,0 +1,64 @@
+# PR validation for the Tulpar VS Code extension.
+#
+# This is intentionally minimal — the extension is mostly declarative
+# (package.json + grammar JSON + snippet JSON) so there's no compile
+# step to gate on. What we DO want to catch before merge:
+#
+#   - package.json is valid JSON and accepted by `vsce`'s schema check
+#     (catches missing required fields, unknown categories, malformed
+#     contributes.* sections).
+#   - The single .js source under src/ parses (Node syntax check).
+#   - The extension actually packages cleanly into a .vsix (this also
+#     exercises every `files` glob in package.json).
+#
+# Branch protection on `main` should require the `validate` job below;
+# auto-merge.yml then takes over once it goes green.
+
+name: CI
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # `npm ci` is strict about the lockfile but the extension uses
+      # `npm install`-shaped dependency tree (no shrinkwrap, occasional
+      # manual edits to package-lock.json). Fall back to `npm install`
+      # when ci can't satisfy the lockfile so we don't gate on a
+      # transient lockfile drift.
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Syntax-check extension source
+        run: node --check src/extension.js
+
+      # `vsce ls` runs the same schema validation `vsce publish` does
+      # plus enumerates every file that would ship in the .vsix. A
+      # malformed contributes.debuggers or a missing `icon` path fails
+      # here, BEFORE we'd try to push to the marketplace.
+      - name: Validate package.json via vsce
+        run: npx --yes @vscode/vsce@latest ls --no-dependencies
+
+      # The actual .vsix build — proves the package is shippable.
+      # Discarded; publish.yml rebuilds it on main with the marketplace
+      # PATs in scope.
+      - name: Build .vsix (smoke)
+        run: npx --yes @vscode/vsce@latest package --no-dependencies --out /tmp/smoke.vsix
