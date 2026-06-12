@@ -1,0 +1,13 @@
+// Test - Yorum içindeki fonksiyon benzeri kelimeler
+
+float pi = 3.14159;
+float angle = pi / 4.0;  // 45 derece (radyan)
+
+// Bu satırda "derece" kelimesi hata vermemeli
+int x = 5;  // Bu bir test (örnek) fonksiyon değil
+
+// Aşağıdaki fonksiyon çağrısı gerçek, hata vermeli
+// bilinmeyenFonksiyon(10);
+
+print("Açı:", angle);
+print("Test başarılı!");

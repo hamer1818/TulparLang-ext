@@ -1,0 +1,44 @@
+ci: auto-merge + dual-marketplace publish workflows
+
+Three workflows, mirroring the main TulparLang repo's automation
+posture so this extension repo no longer needs hand-clicked merges
+or manual `vsce publish` runs:
+
+  * ci.yml — PR validation. Runs on push/PR; validates package.json
+    via `vsce ls`, syntax-checks src/extension.js, and builds a
+    smoke .vsix to prove the extension packages cleanly. Branch
+    protection should require the `validate` job before merge so
+    auto-merge has a green gate to wait on.
+
+  * auto-merge.yml — Mirrors TulparLang's pattern. Every non-draft
+    same-repo PR is queued for squash-merge via `gh pr merge --auto`
+    as soon as required checks pass. Uses AUTOMERGE_PAT (not
+    GITHUB_TOKEN) so the resulting push to main still fires
+    publish.yml — GITHUB_TOKEN-attributed pushes silently suppress
+    downstream workflows.
+
+  * publish.yml — Auto-publish to BOTH VS Code Marketplace and
+    Open VSX whenever package.json's `version` field changes on
+    main, plus a workflow_dispatch entry point for manual republish
+    (useful for the first v0.4.0 publish before the cadence kicks
+    in, or to recover from one marketplace succeeding while the
+    other failed). On a real version bump the workflow:
+      1) builds the .vsix once,
+      2) `vsce publish` → marketplace.visualstudio.com,
+      3) `ovsx publish` → open-vsx.org,
+      4) tags vX.Y.Z and attaches the .vsix to a GitHub release.
+
+Requires three repository secrets (Settings → Secrets → Actions):
+  - AUTOMERGE_PAT — fine-grained PAT, Contents+Pull requests
+    read+write on this repo. Same kind of token as in TulparLang.
+  - VSCE_PAT      — Azure DevOps PAT scoped to "Marketplace:
+    Manage" (visualstudio.com publisher = hamer1818).
+  - OVSX_PAT      — Open VSX token from open-vsx.org/user-settings/
+    tokens. Namespace `hamer1818` on open-vsx.org must exist
+    + you must be a member (run `npx ovsx create-namespace
+    hamer1818 -p $TOKEN` once if not).
+
+Branch protection on `main`/`master` should be configured to
+require `validate` so auto-merge has a non-trivial gate.
+
+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
