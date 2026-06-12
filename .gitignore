@@ -3,3 +3,8 @@ node_modules/
 .vscode-test/
 out/
 dist/
+git/
+github/
+vscode/
+wrangler/
+astro/
