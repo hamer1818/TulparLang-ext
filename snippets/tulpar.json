@@ -156,16 +156,16 @@
     "body": [
       "import \"wings\";",
       "",
-      "func ${1:handler}() {",
-      "  // _request fields: method, path, raw_path, version,",
-      "  // query (json), headers (json), body (str)",
-      "  return {\"message\": \"${2:Hello}\"};",
+      "func ${1:handler}(req) {",
+      "  // req fields: req.method, req.path, req.params, req.query,",
+      "  // req.headers, req.cookies, req.json (parsed body), req.body",
+      "  return ok({\"message\": \"${2:Hello}\"});",
       "}",
       "",
-      "get(\"/${3:path}\", \"${1:handler}\");",
-      "listen(${4:3000});"
+      "get(\"/${3:path}\", ${1:handler});",
+      "serve(${4:8080});"
     ],
-    "description": "Wings HTTP route + listener"
+    "description": "Wings HTTP route + server (function-ref handler, req param)"
   },
   "HTTP parse request": {
     "prefix": "thttp",
@@ -287,16 +287,38 @@
     ],
     "description": "TCP socket server skeleton"
   },
-  "Async block": {
+  "Async function": {
     "prefix": "tasync",
     "body": [
-      "import \"async\";",
-      "",
-      "async_run(func() {",
-      "  $0",
-      "});"
+      "async func ${1:name}(${2:int n}) {",
+      "  await sleep_async(${3:10});",
+      "  return ${4:n};",
+      "}"
     ],
-    "description": "Run code asynchronously"
+    "description": "async func + await (AOT coroutine)"
+  },
+  "Await": {
+    "prefix": "tawait",
+    "body": [
+      "var ${1:result} = await ${2:promise};"
+    ],
+    "description": "await a promise"
+  },
+  "Gather (concurrent await)": {
+    "prefix": "tgather",
+    "body": [
+      "var ${1:results} = await gather(${2:a}, ${3:b});"
+    ],
+    "description": "gather — await several promises concurrently"
+  },
+  "Async HTTP get": {
+    "prefix": "thttpgeta",
+    "body": [
+      "import \"http_client\";",
+      "",
+      "var ${1:res} = await http_get_async(\"${2:http://api/users}\");"
+    ],
+    "description": "Non-blocking HTTP GET (await)"
   },
   "Middleware": {
     "prefix": "tmw",
@@ -459,5 +481,114 @@
       "arena_restore(wm);"
     ],
     "description": "Per-request arena scope (memory hygiene)"
+  },
+  "Wings CRUD API": {
+    "prefix": "tcrud",
+    "body": [
+      "import \"wings\";",
+      "",
+      "json _${1:items} = [];",
+      "int _next_id = 1;",
+      "",
+      "func list_${1:items}(req) {",
+      "  return ok(_${1:items});",
+      "}",
+      "",
+      "func get_${2:item}(req) {",
+      "  int id = toInt(req.params.id);",
+      "  for (x in _${1:items}) {",
+      "    if (x[\"id\"] == id) { return ok(x); }",
+      "  }",
+      "  return not_found(t\"${2:item} {id} not found\");",
+      "}",
+      "",
+      "func create_${2:item}(req) {",
+      "  json body = req.json;",
+      "  if (length(body[\"${3:name}\"]) == 0) { return bad_request(\"${3:name} required\"); }",
+      "  json x = {\"id\": _next_id, \"${3:name}\": body[\"${3:name}\"]};",
+      "  _next_id = _next_id + 1;",
+      "  push(_${1:items}, persist(x));",
+      "  return created(x);",
+      "}",
+      "",
+      "get(\"/${1:items}\", list_${1:items});",
+      "get(\"/${1:items}/:id\", get_${2:item});",
+      "post(\"/${1:items}\", create_${2:item});",
+      "serve(${4:8080});"
+    ],
+    "description": "Full in-memory CRUD API (persist, helpers, req param)"
+  },
+  "Wings GET route + handler": {
+    "prefix": "tget",
+    "body": [
+      "func ${1:handler}(req) {",
+      "  return ok(${2:data});",
+      "}",
+      "get(\"/${3:path}\", ${1:handler});"
+    ],
+    "description": "GET route bound to a handler function"
+  },
+  "Wings POST route + handler": {
+    "prefix": "tpost",
+    "body": [
+      "func ${1:handler}(req) {",
+      "  json body = req.json;",
+      "  return created(${2:body});",
+      "}",
+      "post(\"/${3:path}\", ${1:handler});"
+    ],
+    "description": "POST route + handler (auto-parsed body)"
+  },
+  "Response: ok / created / not_found / bad_request": {
+    "prefix": "tok",
+    "body": [
+      "return ok(${1:data});"
+    ],
+    "description": "200 OK response helper"
+  },
+  "Response: created (201)": {
+    "prefix": "tcreated",
+    "body": [
+      "return created(${1:data});"
+    ],
+    "description": "201 Created response helper"
+  },
+  "Response: not_found (404)": {
+    "prefix": "t404",
+    "body": [
+      "return not_found(\"${1:not found}\");"
+    ],
+    "description": "404 Not Found response helper"
+  },
+  "Response: bad_request (400)": {
+    "prefix": "t400",
+    "body": [
+      "return bad_request(\"${1:invalid input}\");"
+    ],
+    "description": "400 Bad Request response helper"
+  },
+  "Persist value": {
+    "prefix": "tpersist",
+    "body": [
+      "push(${1:_items}, persist(${2:value}));"
+    ],
+    "description": "persist() — keep request data in a long-lived global"
+  },
+  "T-string (interpolation)": {
+    "prefix": "tt",
+    "body": [
+      "t\"${1:text} {${2:expr}}\""
+    ],
+    "description": "Interpolated t-string: t\"x = {n}\""
+  },
+  "Match expression": {
+    "prefix": "tmatch",
+    "body": [
+      "match ${1:subject} {",
+      "  ${2:pattern} => ${3:value},",
+      "  _ => ${4:default}",
+      "}"
+    ],
+    "description": "Rust-style match expression"
   }
 }

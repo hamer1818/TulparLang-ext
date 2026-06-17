@@ -1,8 +1,12 @@
 .vscode/**
 .vscode-test/**
 .gitignore
+.git/**
+.github/**
 .git
 .github
+git/**
+github/**
 *.vsix
 **/*.map
 

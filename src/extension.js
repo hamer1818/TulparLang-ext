@@ -20,10 +20,11 @@ function tulparExe() {
 }
 
 /**
- * Build a shell command for a given mode. Mode-specific flags follow
- * Tulpar's CLI: default = AOT compile + run silently (falls back to VM
- * on AOT failure), '--vm' forces VM, 'build' produces a standalone exe,
- * '--repl' is interactive.
+ * Build a shell command for a given mode. Tulpar is AOT-only: the default
+ * mode AOT-compiles and runs (an AOT failure is a hard error — there is no
+ * VM fallback). 'aot-build' produces a standalone native executable. The
+ * legacy '--vm' / '--repl' flags are accepted by the CLI but no longer do
+ * anything; prefer the default run / build modes.
  */
 function buildCommand(mode, filePath, outputName) {
   const exe = tulparExe();

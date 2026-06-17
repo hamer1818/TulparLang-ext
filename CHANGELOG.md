@@ -2,6 +2,26 @@
 
 All notable changes to the "vscode-Tulpar" extension will be documented in this file.
 
+## [0.5.0] - 2026-06-16
+
+### ✨ Added — Modern Wings API + language snippets
+
+- **Yeni snippet'ler:** `tcrud` (tam in-memory CRUD: persist + helper'lar +
+  `req`), `tget` / `tpost` (route + handler), `tok` / `tcreated` / `t404` /
+  `t400` (response helper'ları), `tpersist`, `tt` (t-string), `tmatch`,
+  `tawait` / `tgather` / `thttpgeta` (async).
+- **Autocomplete genişledi (LSP):** Wings helper'ları (`ok`, `created`,
+  `not_found`, `bad_request`, `serve`, `get`/`post`/`put`/`del`, …) ve
+  `persist` artık tamamlamada görünüyor.
+
+### ♻️ Changed
+
+- **`twings` / `tasync` snippet'leri güncellendi:** `twings` artık
+  fonksiyon-referans handler + `req` parametresi + `ok()` + `serve()`
+  kullanıyor (eski string-handler stili kalktı). `tasync` gerçek
+  `async func` + `await` syntax'ına geçti (eski `async_run` kaldırıldı).
+- AOT-only gerçeğini yansıtan yorum düzeltmeleri (VM-fallback notu kalktı).
+
 ## [0.4.0] - 2026-05-12
 
 ### ✨ Added — Debugger integration (Plan 07 Part B)
